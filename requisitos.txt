@@ -1,0 +1,54 @@
+Lista de Requisitos
+            _
+ _____    _/_/_       ______    _____       _____    __   _____   _____       __  
+|     \  |  ___|     |   _  \  |  ___|     |     \  |  | |___  | |___  |     /  \
+|  O   | |  |_       |  | \  | |  |_       |  O   | |  |    / /     / /     / /\ \
+|   __/  |  __|      |  |  | | |  __|      |   __/  |  |   / /     / /     /  __  \
+|  |     |  |__      |  |_/  | |  |__      |  |     |  |  / /__   / /__   /  /  \  \
+|__|     |_____|     |______/  |_____|     |__|     |__| |_____| |_____| /__/    \__\
+
+## Sistema de login
+Inicialmente somente um usuário
+    SE o tempo permitir, implementaremos quando tudo estiver funcioanndo
+
+## Interfaces Graficas
+01)Tela login*
+02)Menu Principal*
+03)Pedido
+04)Cadastro Cliente
+05)Cadastro Pizza
+06)Exportar Clientes
+07)Exportar Pizzas
+08)Importar Clientes
+09)Importar Pizzas
+10)Sobre*
+* Obrigatórias
+
+
+## Banco de dados
+1) tabela Cliente
+    -id
+    -nome
+    -telefone
+    -rua
+    -numero
+    -complemento
+    -bairro
+
+2) tabela Pizzas
+    -id
+    -sabor
+    -valor
+    
+3) Tabela Pedido
+    -id Pedido
+    -id Cliente
+    -data
+    -valor
+
+4) Tabela Item Pedido
+    -id Pedido
+    -id Pizza
+    -quantidade
+    -meia pizza (flag)
+
