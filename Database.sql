@@ -4,7 +4,7 @@
 CREATE TABLE clientes(
 id_cliente      SERIAL NOT NULL, 
 nome            VARCHAR(30) NOT NULL,
-telefone        VARCHAR(11) NOT NULL,
+telefone        VARCHAR(13) NOT NULL,
 rua             VARCHAR(40),
 numero          VARCHAR(6),
 complemento     VARCHAR(10),

@@ -1,0 +1,76 @@
+{
+    "clientes" : [
+        {
+            "id" : 12,
+            "nome" : "JOSE ARIMATEIA",
+            "telefone" : "(16)99999-9999",
+            "rua" : "DAS PITANGUEIRAS",
+            "numero" : "171",
+            "complemento" : null,
+            "bairro" : "JARDINS"
+        },
+
+        {
+            "id" : 13,
+            "nome" : "MARIA DAS DORES",
+            "telefone" : "(16)99999-1234",
+            "rua" : "DAS AMOREIRAS",
+            "numero" : "172",
+            "complemento" : "AP12",
+            "bairro" : "SUMARE"
+        },
+
+        {
+            "id" : 14,
+            "nome" : "ANTONIO PEDREIRA",
+            "telefone" : "(16)99999-5678",
+            "rua" : "DAS AMOREIRAS",
+            "numero" : "172",
+            "complemento" : "AP22",
+            "bairro" : "SUMARE"
+        },
+
+        {
+            "id" : 15,
+            "nome" : "PAULO PAULADA",
+            "telefone" : "(16)99999-1111",
+            "rua" : "DAS OLIVEIRAS",
+            "numero" : "69",
+            "complemento" : "NULL",
+            "bairro" : "ALAGADOS"
+        }
+
+        ],
+    "pizzas" : [
+        {
+            "id" : 11,
+            "sabor" : "MUCARELA",
+            "valor" : 25.50
+        },
+
+        {
+            "id" : 12,
+            "sabor" : "CALABREZA",
+            "valor" : 26.50
+        },
+
+        {
+            "id" : 13,
+            "sabor" : "MARGUERITA",
+            "valor" : 26.00
+        },
+
+        {
+            "id" : 14,
+            "sabor" : "PORTUGUESA",
+            "valor" : 30.80
+        },
+
+        {
+            "id" : 15,
+            "sabor" : "FRANGO COM CATUPIRY",
+            "valor" : 31.20
+        }
+        ]
+
+}

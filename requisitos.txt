@@ -52,3 +52,9 @@ Inicialmente somente um usuário
     -quantidade
     -meia pizza (flag)
 
+## Importação e exportação dos dados
+-será feita no formato JSON
+-importação devera ser feita a partir de umna URL informada pelo usuário
+-(a priori) exportação gerará um arquivo JSON compactado na pasta do programa 
+    a localização do arquivo pode mudar de acordo com o tempo disponivel
+-Acho que a melhor forma é importar e exportar todos os dados (Pizzas e Clientes) em um unico arquivo.
