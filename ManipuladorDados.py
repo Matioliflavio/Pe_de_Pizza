@@ -19,7 +19,10 @@ def desconecta(con):
     con.close()
     log("conexão encerrada")
 
-#insere cliente e retorna com o id
+#////////////////////////////////
+#//////////  INSERTS  ///////////
+#////////////////////////////////
+
 def insere_cliente(nome, telefone, rua=None, numero=None, complemento=None, bairro= None):
     sql = "INSERT INTO tb_clientes(nome, telefone, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
     id_cliente = None
@@ -61,8 +64,8 @@ def insere_pedido(id_cliente):
         cur = con.cursor()
         cur.execute(cur.mogrify(sql, (id_cliente, data)))
         id_pedido = cur.fetchone()[0]
-        log("Pedido id: " + str(id_pedido) + " inserido com sucesso"
-        desconecta(con))
+        log("Pedido id: " + str(id_pedido) + " inserido com sucesso")
+        desconecta(con)
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0
@@ -105,3 +108,9 @@ log("insere dados")
 #insere_item_pedido(1, 1, 2, 0, 65.80)
 #finaliza_pedido(2, 44.50)
 log("final insere dados")
+
+
+#////////////////////////////////
+#//////////  SELECTS  ///////////
+#////////////////////////////////
+

@@ -1,7 +1,7 @@
 {
     "clientes" : [
         {
-            "id" : 12,
+            "id_cliente" : 12,
             "nome" : "JOSE ARIMATEIA",
             "telefone" : "(16)99999-9999",
             "rua" : "DAS PITANGUEIRAS",
@@ -11,7 +11,7 @@
         },
 
         {
-            "id" : 13,
+            "id_cliente" : 13,
             "nome" : "MARIA DAS DORES",
             "telefone" : "(16)99999-1234",
             "rua" : "DAS AMOREIRAS",
@@ -21,7 +21,7 @@
         },
 
         {
-            "id" : 14,
+            "id_cliente" : 14,
             "nome" : "ANTONIO PEDREIRA",
             "telefone" : "(16)99999-5678",
             "rua" : "DAS AMOREIRAS",
@@ -31,7 +31,7 @@
         },
 
         {
-            "id" : 15,
+            "id_cliente" : 15,
             "nome" : "PAULO PAULADA",
             "telefone" : "(16)99999-1111",
             "rua" : "DAS OLIVEIRAS",
@@ -43,31 +43,31 @@
         ],
     "pizzas" : [
         {
-            "id" : 11,
+            "id_pizza" : 11,
             "sabor" : "MUCARELA",
             "valor" : 25.50
         },
 
         {
-            "id" : 12,
+            "id_pizza" : 12,
             "sabor" : "CALABREZA",
             "valor" : 26.50
         },
 
         {
-            "id" : 13,
+            "id_pizza" : 13,
             "sabor" : "MARGUERITA",
             "valor" : 26.00
         },
 
         {
-            "id" : 14,
+            "id_pizza" : 14,
             "sabor" : "PORTUGUESA",
             "valor" : 30.80
         },
 
         {
-            "id" : 15,
+            "id_pizza" : 15,
             "sabor" : "FRANGO COM CATUPIRY",
             "valor" : 31.20
         }
