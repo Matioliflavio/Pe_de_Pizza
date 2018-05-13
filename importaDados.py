@@ -1,3 +1,7 @@
+#Arquvivo 100% funcional
+#função recebe uma url e insere todos os dados no banco. 
+#Não ha verificação de dados quanto ao arquivo importado 
+
 import json
 import requests
 import ManipuladorDados as mp
@@ -9,16 +13,13 @@ log = True
 def log(data):
     if log : print(data)
 
-#url = input("digite a URL: ") #INPUT
-url = "https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg" #descomente para OVERRIDE
-
-
+url = "https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg" 
 
 def importa_dados(url):
     urldata = requests.get(url)
     jsondata = urldata.json()
     for cliente in jsondata["clientes"]:
-        log("Inserindo id: " + str(cliente["id_cliente"]))
+        log("Inserindo cliente id: " + str(cliente["id_cliente"]))
         mp.insere_cliente(cliente["nome"],
         cliente["telefone"],
         cliente["rua"],
@@ -26,12 +27,12 @@ def importa_dados(url):
         cliente["complemento"],
         cliente["bairro"])
 
-    log("Clientes inseriidos com sucesso")
+    log("Clientes inseridos com sucesso!")
 
     for pizza in jsondata["pizzas"]:
-        log("inserindo Pizza id: " + str(pizza["id_pizza"]))
+        log("Inserindo pizza id: " + str(pizza["id_pizza"]))
         mp.insere_pizza(pizza["sabor"], pizza["valor"])
 
-    log("pizzas inseridas com sucesso")
+    log("Pizzas inseridas com sucesso!")
 
-importa_dados(url)
+importa_dados(url) # descomente para funcionar

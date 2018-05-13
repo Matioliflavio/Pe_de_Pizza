@@ -11,17 +11,19 @@ def log(data):
 
 def conecta():
     con = pg.connect(database="bd_pedepizza", user="postgres", password="qwerty", host="127.0.0.1", port="5432")
-    log("sucesso na conexão")
+    log("Sucesso na conexão")
     return con
 
 def desconecta(con):
     con.commit()
     con.close()
-    log("conexão encerrada")
+    log("Conexão encerrada")
+
 
 #////////////////////////////////
 #//////////  INSERTS  ///////////
 #////////////////////////////////
+
 
 def insere_cliente(nome, telefone, rua=None, numero=None, complemento=None, bairro= None):
     sql = "INSERT INTO tb_clientes(nome, telefone, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
@@ -100,19 +102,10 @@ def finaliza_pedido(id_pedido, valor):
     return 1
 
 
-
-#--TESTES DE INSERSÃO----
-#insere_cliente("Veronica Matioli", "(16)98888-4321", "dos pinhais", 31, None, "alcantara" )
-#insere_pizza("Quatro Queijos", 32.90)
-#insere_pedido(3)
-#insere_item_pedido(1, 1, 2, 0, 65.80)
-#finaliza_pedido(2, 44.50)
-
-
-
 #////////////////////////////////
 #//////////  SELECTS  ///////////
 #////////////////////////////////
+
 
 def lista_clientes():
     sql = "SELECT * FROM tb_clientes;"
@@ -152,7 +145,7 @@ def lista_cliente_por_id(id):
         con = conecta()
         cur = con.cursor()
         cur.execute(cur.mogrify(sql, (str(id))))
-        cliente = cur.fetchall()
+        cliente = cur.fetchone()
         log("Item retornado com sucesso")
         desconecta(con)
     except (Exception, pg.DatabaseError) as erro:
@@ -167,7 +160,7 @@ def lista_pizza_por_id(id):
         con = conecta()
         cur = con.cursor()
         cur.execute(cur.mogrify(sql, (str(id))))
-        pizza = cur.fetchall()
+        pizza = cur.fetchone()
         log("Item retornado com sucesso")
         desconecta(con)
     except (Exception, pg.DatabaseError) as erro:

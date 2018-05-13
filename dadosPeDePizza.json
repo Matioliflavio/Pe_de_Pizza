@@ -36,7 +36,7 @@
             "telefone" : "(16)99999-1111",
             "rua" : "DAS OLIVEIRAS",
             "numero" : "69",
-            "complemento" : "NULL",
+            "complemento" : null,
             "bairro" : "ALAGADOS"
         }
 

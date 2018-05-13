@@ -51,6 +51,7 @@ Inicialmente somente um usuário
     -id Pizza
     -quantidade
     -meia pizza (flag)
+    -valor
 
 ## Importação e exportação dos dados
 -será feita no formato JSON
