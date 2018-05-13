@@ -1,4 +1,10 @@
 import json
+import ManipuladorDados as mp
+
+def log(data):
+    if data: print(data)
+
+#testes
 
 data = {} #objeto que será o JSON
 

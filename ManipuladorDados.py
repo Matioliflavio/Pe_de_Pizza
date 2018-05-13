@@ -100,17 +100,76 @@ def finaliza_pedido(id_pedido, valor):
     return 1
 
 
-log("insere dados")
+
 #--TESTES DE INSERSÃO----
 #insere_cliente("Veronica Matioli", "(16)98888-4321", "dos pinhais", 31, None, "alcantara" )
 #insere_pizza("Quatro Queijos", 32.90)
 #insere_pedido(3)
 #insere_item_pedido(1, 1, 2, 0, 65.80)
 #finaliza_pedido(2, 44.50)
-log("final insere dados")
+
 
 
 #////////////////////////////////
 #//////////  SELECTS  ///////////
 #////////////////////////////////
 
+def lista_clientes():
+    sql = "SELECT * FROM tb_clientes;"
+    log("Buscando Todos os clientes")
+    clientes = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(sql)
+        clientes = cur.fetchall()
+        log("Itens retornados com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return clientes #mesmo com erro retorna None
+    
+def lista_pizzas():
+    sql = "SELECT * FROM tb_pizzas;"
+    log("Buscando todas os pizzas")
+    pizzas = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(sql)
+        pizzas = cur.fetchall()
+        log("Itens retornados com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return pizzas #mesmo com erro retorna None
+
+def lista_cliente_por_id(id):
+    sql = "SELECT * FROM tb_clientes WHERE id_cliente = %s;"
+    log("Buscando cliente id: " %str(id))
+    cliente = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (str(id))))
+        cliente = cur.fetchall()
+        log("Item retornado com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return cliente #mesmo com erro retorna None
+
+def lista_pizza_por_id(id):
+    sql = "SELECT * FROM tb_pizzas WHERE id_pizza = %s;"
+    log("Buscando pizza id: %s" %str(id))
+    pizza = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (str(id))))
+        pizza = cur.fetchall()
+        log("Item retornado com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return pizza #mesmo com erro retorna None
