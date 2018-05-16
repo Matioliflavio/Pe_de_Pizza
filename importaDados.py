@@ -8,7 +8,7 @@ import ManipuladorDados as mp
 
 #Arquivo JSON: https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg
 
-log = True
+log = True #Habilita log
 
 def log(data):
     if log : print(data)
@@ -22,6 +22,7 @@ def importa_dados(url):
         log("Inserindo cliente id: " + str(cliente["id_cliente"]))
         mp.insere_cliente(cliente["nome"],
         cliente["telefone"],
+        cliente["cep"],
         cliente["rua"],
         cliente["numero"],
         cliente["complemento"],

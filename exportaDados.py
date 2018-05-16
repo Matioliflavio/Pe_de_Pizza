@@ -1,4 +1,5 @@
 import json
+import os
 import ManipuladorDados as mp
 
 
@@ -29,11 +30,12 @@ def cria_backup_json():
         cliente = {}
         cliente["id_cliente"] = item[0]
         cliente["nome"] = item[1]
-        cliente["telefone"] = (item[2])
-        cliente["rua"] = item[3]
-        cliente["numero"] = item[4]
-        cliente["complemento"] = item[5]
-        cliente["bairro"] = item[6]
+        cliente["telefone"] = item[2]
+        cliente["cep"] = item[3]
+        cliente["rua"] = item[4]
+        cliente["numero"] = item[5]
+        cliente["complemento"] = item[6]
+        cliente["bairro"] = item[7]
         clientes.append(cliente) 
 
     data["clientes"] = clientes
@@ -44,3 +46,13 @@ def cria_backup_json():
     f.close()
 
 #aqui entra a zica da compactação! :P
+
+path_zip = os.path.join(os.sep, 'c:\\',  'backup.zip')
+zf = z.ZipFile(path_zip, 'w')
+for dirname, subdir, files in os.walk(dir):
+    for directory in subdir:
+        zf.write(directory)
+        for dirname, subdir, files in os.walk(directory):
+            for arq in files:
+                zf.write(os.path.join(dirname, arq))
+zf.close()

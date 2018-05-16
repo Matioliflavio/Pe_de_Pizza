@@ -25,13 +25,13 @@ def desconecta(con):
 #////////////////////////////////
 
 
-def insere_cliente(nome, telefone, rua=None, numero=None, complemento=None, bairro= None):
-    sql = "INSERT INTO tb_clientes(nome, telefone, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
+def insere_cliente(nome, telefone, cep=None, rua=None, numero=None, complemento=None, bairro= None):
+    sql = "INSERT INTO tb_clientes(nome, telefone, cep, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
     id_cliente = None
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (nome, telefone, rua, numero, complemento, bairro)))
+        cur.execute(cur.mogrify(sql, (nome, telefone, cep, rua, numero, complemento, bairro)))
         id_cliente = cur.fetchone()[0]
         log("Cliente id: " + str(id_cliente) + " inserido com sucesso!")
         desconecta(con)
