@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 import tkinter.ttk as ttk
 
 class FramePrincipal(Frame):
@@ -16,6 +17,29 @@ class FramePrincipal(Frame):
         font3 = "Helvetica 12"
         font4 = "Helvetica 18"
 
+        #Strings
+        info = '''Pé de Pizza é uma aplicação para gerenciamento de pizzaria.
+        Desenvolvido na linguagem Python,
+        o programa tem seu código fonte aberto, 
+        esta licenciado sobre os termos do MIT 
+        e pode ser baixado diretamento no gitHub pelo seguinte link:  '''
+        autores = "Flavio Matioli & Gabriel Nardini"
+        empresa = "PyCaretas LTDA"
+
+        caminho = ""
+        #-------------------------
+        #-------- Funções --------
+        #-------------------------
+
+        def botaoProcuraCaminho():
+            caminho = filedialog.askdirectory()
+            print(caminho)
+            self.caminhoExportar.set(caminho)
+            return str(caminho)
+
+        #------------------------
+        #-------- Janela --------
+        #------------------------
         super().__init__()
         self.master.iconbitmap("pedepizza.ico")
         self.master.geometry("700x600")
@@ -153,8 +177,18 @@ class FramePrincipal(Frame):
         self.btnLimparCliente = Button(frameBotoesPizza, width=10, text="Limpar")
         self.btnLimparCliente.pack(side=RIGHT, padx=10)
 
+        #---------------------------
+        #------ Aba 4 Deletar ------
+        #---------------------------
+        frameDeletar = Frame(notebook, bg=cinza, height=590, width=690)
+            #Titulo
+        frameTituloDeletar = Frame(frameDeletar, bg=cinza, height=50, width=690)
+        frameTituloDeletar.pack(side=TOP, fill=X, pady=10)
+        self.tituloDeletar = Label(frameTituloDeletar, text="Deletar Dados", bg=branco, font=font4)
+        self.tituloDeletar.pack(side=TOP, fill=X)
+
         #-------------------------------
-        #------ Aba 4 Faturamento ------
+        #------ Aba 5 Faturamento ------
         #-------------------------------
         frameFaturamento = Frame(notebook, bg=cinza, height=590, width=690)
             #Titulo
@@ -164,7 +198,7 @@ class FramePrincipal(Frame):
         self.tituloFaturamento.pack(side=TOP, fill=X)
 
         #----------------------------
-        #------ Aba 5 Importar ------
+        #------ Aba 6 Importar ------
         #----------------------------
         frameImportar = Frame(notebook, bg=cinza, height=590, width=690)
                 #Titulo
@@ -185,13 +219,13 @@ class FramePrincipal(Frame):
             #Botoes
         frameBotoesImportar = Frame(frameImportar, bg=cinza, height=50, width=690)
         frameBotoesImportar.pack(side=BOTTOM, fill=X, pady=10)
-        self.btnAdicionarDados = Button(frameBotoesImportar, width=10, text="Adicionar")
+        self.btnAdicionarDados = Button(frameBotoesImportar, width=10, text="Carregar")
         self.btnAdicionarDados.pack(side=RIGHT, padx=10)
         self.btnLimparDados = Button(frameBotoesImportar, width=10, text="Limpar")
         self.btnLimparDados.pack(side=RIGHT, padx=10)
         
         #----------------------------
-        #------ Aba 6 Exportar ------
+        #------ Aba 7 Exportar ------
         #----------------------------
         frameExportar = Frame(notebook, bg=cinza, height=590, width=690)
             #Titulo
@@ -200,8 +234,26 @@ class FramePrincipal(Frame):
         self.tituloExportar = Label(frameTituloExportar, text="Exportar Dados", bg=branco, font=font4)
         self.tituloExportar.pack(side=TOP, fill=X)
 
+            #Caminho
+        frameCaminhoExportar = Frame(frameExportar, bg=cinza, height=50, width=690)
+        frameCaminhoExportar.pack(side=TOP, fill=X, pady=10)
+        self.caminhoExportar = Label(frameCaminhoExportar, text="Caminho :", bg=cinza, font=font2)
+        self.caminhoExportar.pack(side=LEFT, ipadx=5, ipady=5)
+        self.caminhoExportar = Entry(frameCaminhoExportar, width=60, bg=branco, font=font2)
+        self.caminhoExportar.pack(side=LEFT, padx=10)
+        self.btnProcuraCaminho = Button(frameCaminhoExportar, width=10, text="...", command=botaoProcuraCaminho)
+        self.btnProcuraCaminho.pack(side=RIGHT, padx=10)
+        
+            #Botoes
+        frameBotoesExportar = Frame(frameExportar, bg=cinza, height=50, width=690)
+        frameBotoesExportar.pack(side=BOTTOM, fill=X, pady=10)
+        self.btnExportarDados = Button(frameBotoesExportar, width=10, text="Exportar")
+        self.btnExportarDados.pack(side=RIGHT, padx=10)
+        self.btnLimparExportacao = Button(frameBotoesExportar, width=10, text="Limpar")
+        self.btnLimparExportacao.pack(side=RIGHT, padx=10)
+
         #-------------------------
-        #------ Aba 7 Dados ------
+        #------ Aba 8 Dados ------
         #-------------------------
         frameDados = Frame(notebook, bg=cinza, height=590, width=690)
             #Titulo
@@ -211,7 +263,7 @@ class FramePrincipal(Frame):
         self.tituloDados.pack(side=TOP, fill=X)
 
         #------------------------
-        #------ Aba 8 Info ------
+        #------ Aba 9 Info ------
         #------------------------
         frameInfo = Frame(notebook, bg=cinza, height=590, width=690)
             #Titulo
@@ -220,10 +272,20 @@ class FramePrincipal(Frame):
         self.tituloInfo = Label(frameTituloInfo, text="Informações", bg=branco, font=font4)
         self.tituloInfo.pack(side=TOP, fill=X)
 
+        self.infoInfo = Label(frameInfo, text=info, bg=cinza, font=font3)
+        self.infoInfo.pack(side=TOP, fill=X)
+        self.infoInfo = Label(frameInfo, bg=cinza, font=font3)
+        self.infoInfo.pack(side=TOP, fill=X)
+        self.infoInfo = Label(frameInfo, text=autores, bg=cinza, font=font4)
+        self.infoInfo.pack(side=TOP, fill=X)
+        self.infoInfo = Label(frameInfo, text=empresa, bg=cinza, font=font3)
+        self.infoInfo.pack(side=TOP, fill=X)
+
         #Adicionando as abas no notebook
         notebook.add(framePedido, text="Pedido")
         notebook.add(frameCliente, text="Clientes")
         notebook.add(framePizza, text="Pizzas")
+        notebook.add(frameDeletar, text="Deletar")
         notebook.add(frameFaturamento, text="Faturamento")
         notebook.add(frameImportar, text="Importar")
         notebook.add(frameExportar, text="Exportar")
@@ -231,7 +293,7 @@ class FramePrincipal(Frame):
         notebook.add(frameInfo, text="Info")
         notebook.pack()
 
-
+        
 
 app = FramePrincipal()
 app.mainloop()
