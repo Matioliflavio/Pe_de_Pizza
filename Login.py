@@ -1,5 +1,9 @@
 from tkinter import *
 import tkinter.messagebox as box
+import time
+
+
+
 
 #aqui usaremos para chamar a proxima tela
 def login():
@@ -7,6 +11,9 @@ def login():
     senha = entry2.get()
     if (usuario == 'admin' and  senha == 'admin'):
         box.showinfo('Sucesso','Login efetuado com sucesso! ')
+        time.sleep(2)
+        janela.destroy()
+        import GUI #para acessar a tela principal, AQUI O IDEAL ERA CHAMAR UM CONTROLER
         
     else:
         box.showinfo('Falha ao Logar','Tente Novamente')
