@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as box
 
+#aqui usaremos para chamar a proxima tela
 def login():
     usuario=entry1.get()
     senha = entry2.get()
@@ -10,7 +11,7 @@ def login():
     else:
         box.showinfo('Falha ao Logar','Tente Novamente')
 
-
+#criando janelas e titulos
 janela = Tk()
 janela.title('Login Pe de Pizza')
 janela.iconbitmap("pedepizza.ico")
