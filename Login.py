@@ -30,7 +30,7 @@ entry1.pack(padx=15, pady=5)
 Label2 = Label(janela,text = 'Senha: ')
 Label2.pack(padx = 15,pady=6)
 
-entry2 = Entry(janela, bd=5)
+entry2 = Entry(janela, bd=5, show = '*')
 entry2.pack(padx = 15,pady=7)
 
 
