@@ -1,6 +1,14 @@
 from tkinter import *
 from tkinter import filedialog
 import tkinter.ttk as ttk
+import tkinter as tk
+
+#
+#
+# ESSE Arquivo será usado como modelo
+# GUI_new Esta sendo Refatorado com base nesse
+#
+#
 
 class FramePrincipal(Frame):
     
@@ -25,16 +33,18 @@ class FramePrincipal(Frame):
     _empresa = "PyCaretas LTDA"
 
     _caminho = ""
-
+    
     def centralizar(self, larg, alt):
         px=int((self.master.winfo_screenwidth()-larg)/2)
         py=int((self.master.winfo_screenheight()-alt)/2)
         self.master.geometry("{}x{}+{}+{}".format(larg, alt, px, py))
 
-    def botaoProcuraCaminho():
+    def botaoProcuraCaminho(self):
         caminho = filedialog.askdirectory()
+        caminhoExp = StringVar()
         print(caminho)
-        self.caminhoExportar.set(caminho)
+        teste.set(str(caminho))
+        #self.caminhoExportar.set(self._caminho)
         return str(caminho)
     
     def __init__(self, master=None):
@@ -57,7 +67,7 @@ class FramePrincipal(Frame):
         #--------------------------
         #------ Aba 1 Pedido ------
         #--------------------------
-        framePedido = Frame(notebook, bg=self._cinza, height=590, width=690)
+        framePedido = Frame(notebook, bg=self._cinza, height=800, width=800)
             #Titulo
         frameTituloPedido = Frame(framePedido, bg=self._cinza, height=50, width=690)
         frameTituloPedido.pack(side=TOP, fill=X, pady=10)
@@ -243,7 +253,7 @@ class FramePrincipal(Frame):
         frameCaminhoExportar.pack(side=TOP, fill=X, pady=10)
         self.caminhoExportar = Label(frameCaminhoExportar, text="Caminho :", bg=self._cinza, font=self._font2)
         self.caminhoExportar.pack(side=LEFT, ipadx=5, ipady=5)
-        self.caminhoExportar = Entry(frameCaminhoExportar, width=60, bg=self._branco, font=self._font2)
+        self.caminhoExportar = Entry(frameCaminhoExportar, width=60, bg=self._branco, font=self._font2, textvariable=self._caminho)
         self.caminhoExportar.pack(side=LEFT, padx=10)
         self.btnProcuraCaminho = Button(frameCaminhoExportar, width=10, text="...", command=self.botaoProcuraCaminho)
         self.btnProcuraCaminho.pack(side=RIGHT, padx=10)
