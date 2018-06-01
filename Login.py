@@ -13,7 +13,7 @@ def login():
         box.showinfo('Sucesso','Login efetuado com sucesso! ')
         time.sleep(2)
         janela.destroy()
-        import GUI #para acessar a tela principal, AQUI O IDEAL ERA CHAMAR UM CONTROLER
+        # import GUI #para acessar a tela principal, AQUI O IDEAL ERA CHAMAR UM CONTROLER
         
     else:
         box.showinfo('Falha ao Logar','Tente Novamente')

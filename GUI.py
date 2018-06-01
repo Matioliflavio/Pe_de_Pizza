@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import filedialog
 import tkinter.ttk as ttk
 import tkinter as tk
+import Login  #por algum motivo isso aqui já chama a tela de login, então vamos usar assim, direto da GUI.
+#se possivel vamos seprar cada janela em um arquivo diferente para manutençaõ ai chamamos todos aqui  no GUI para controlar.
+#não vamos apagar essa por garantia, mas vamos criar uma pasta para fazer em paralelo.
 
 #
 #
