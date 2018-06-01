@@ -3,6 +3,8 @@ from tkinter import filedialog
 import tkinter.ttk as ttk
 from tkinter import messagebox as mbox
 import ManipuladorDados as mp
+import exportaDados as ed
+import importaDados as imp
 
 
 
@@ -190,6 +192,21 @@ class FramePrincipal(Frame):
 
         self.addTitulo(frameImportar, " >> Importar << ", self._branco, self._font4)
 
+        self.addTitulo(frameImportar, "URL da Internet:", self._cinza,  self._font3, LEFT)
+        frameURL = Frame(frameImportar, bg=self._cinza)
+        frameURL.pack(side=TOP, fill=X)
+        self.importaUrlEntry = StringVar()
+        self.caminhoImportar = Entry(frameURL, width=80, bg=self._branco, font=self._font2, textvariable=self.importaUrlEntry)
+        self.caminhoImportar.pack(side=LEFT, fill=X)
+        self.caminhoImportar.focus_set()
+
+        frameBotoesImportar = Frame(frameImportar, bg=self._cinza)
+        frameBotoesImportar.pack(side=BOTTOM, fill=X)
+        self.btnInportarDados = Button(frameBotoesImportar, width=10, text="Importar", command=self.importarDados)
+        self.btnInportarDados.pack(side=RIGHT, padx=10)
+        self.btnLimparURL = Button(frameBotoesImportar, width=10, text="Limpar", command=self.limparImportar)
+        self.btnLimparURL.pack(side=RIGHT, padx=10)
+
         notebook.add(frameImportar, text=" Importar ")
 
         #----------------------------
@@ -202,8 +219,8 @@ class FramePrincipal(Frame):
         self.addTitulo(frameExportar, "Caminho:", self._cinza,  self._font3, LEFT)
         frameCaminho = Frame(frameExportar, bg=self._cinza)
         frameCaminho.pack(side=TOP, fill=X)
-        self.entradaCaminho = StringVar()
-        self.caminhoExportar = Entry(frameCaminho, width=80, bg=self._branco, font=self._font2, textvariable=self.entradaCaminho)
+        self.exportaCaminhoEntry = StringVar()
+        self.caminhoExportar = Entry(frameCaminho, width=80, bg=self._branco, font=self._font2, textvariable=self.exportaCaminhoEntry)
         self.caminhoExportar.pack(side=LEFT, fill=X)
         self.caminhoExportar.focus_set()
         self.btnProcuraCaminho = Button(frameCaminho, width=10, text="Buscar", command=self.botaoProcuraCaminho)
@@ -213,8 +230,8 @@ class FramePrincipal(Frame):
         frameBotoesExportar.pack(side=BOTTOM, fill=X)
         self.btnExportarDados = Button(frameBotoesExportar, width=10, text="Exportar", command=self.exportarDados)
         self.btnExportarDados.pack(side=RIGHT, padx=10)
-        self.btnLimparCliente = Button(frameBotoesExportar, width=10, text="Limpar", command=self.limparExportar)
-        self.btnLimparCliente.pack(side=RIGHT, padx=10)
+        self.btnLimparCaminho = Button(frameBotoesExportar, width=10, text="Limpar", command=self.limparExportar)
+        self.btnLimparCaminho.pack(side=RIGHT, padx=10)
 
         notebook.add(frameExportar, text=" Exportar ")
 
@@ -303,12 +320,27 @@ class FramePrincipal(Frame):
     #---------------------------------------------------------------------    
     def botaoProcuraCaminho(self):
         caminho = filedialog.askdirectory()
-        self.entradaCaminho.set(caminho)
+        self.exportaCaminhoEntry.set(caminho)
         print(caminho)
+
+    #---------------------------------------------------------------------    
+    def importarDados(self):
+        print("importar")
+        url = str(self.importaUrlEntry.get())
+        imp.importa_dados(url)
+        self.exibirMensagem("Importação Concluída!")
+        self.limparImportar()
+
+    #---------------------------------------------------------------------    
+    def limparImportar(self):
+        self.importaUrlEntry.set("")
 
     #---------------------------------------------------------------------    
     def exportarDados(self):
         print("exportar")
+        caminho = str(self.exportaCaminhoEntry.get())
+        ed.cria_backup_json(caminho)
+        self.exibirMensagem("Exportação Concluída!")
 
     #---------------------------------------------------------------------    
     def limparExportar(self):
@@ -322,8 +354,6 @@ class FramePrincipal(Frame):
     def adicionarSabor(self):
         sabor = str(self.saborPizzasEntry.get())
         valor = str(self.valorPizzasEntry.get()).replace(",", ".")
-        #valor = valor.replace(",", ".")
-    
         pid = mp.insere_pizza(sabor, valor)
         if pid:
             self.exibirMensagem("Inserida com Sucesso")

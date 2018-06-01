@@ -8,10 +8,12 @@ import ManipuladorDados as mp
 
 #Arquivo JSON: https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg
 
-log = True #Habilita log
+log = True #Habilita log console
+verbose = True
 
 def log(data):
     if log : print(data)
+
 
 url = "https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg" 
 
@@ -36,4 +38,4 @@ def importa_dados(url):
 
     log("Pizzas inseridas com sucesso!")
 
-importa_dados(url) # descomente para funcionar
+#importa_dados(url) # descomente para funcionar

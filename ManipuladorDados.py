@@ -166,3 +166,36 @@ def lista_pizza_por_id(id):
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
     return pizza #mesmo com erro retorna None
+
+
+    #////////////////////////////////
+    #//////////  DELETES  ///////////
+    #////////////////////////////////
+
+def deleta_cliente_por_id(id):
+    sql = "DELETE FROM tb_clientes WHERE id_cliente = %s;"
+    log("Buscando cliente id: %s" %str(id))
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (str(id))))
+        log("Item deletado com sucesso")
+        desconecta(con)
+        return 1
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+        return 0
+
+def deleta_pizza_por_id(id):
+    sql = "DELETE FROM tb_pizzas WHERE id_pizza = %s;"
+    log("Buscando pizza id: %s" %str(id))
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (str(id))))
+        log("Item deletado com sucesso")
+        desconecta(con)
+        return 1
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+        return 0 

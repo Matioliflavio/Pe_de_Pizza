@@ -1,5 +1,6 @@
 import json
 import os
+import zipfile as z
 import ManipuladorDados as mp
 
 
@@ -8,7 +9,7 @@ log = True #Habilita log
 def log(data):
     if log: print(data)
 
-def cria_backup_json():
+def cria_backup_json(caminho):
     log("Iniciando Backup!")
     data = {} #objeto que será o JSON
     pizzas = []
@@ -41,18 +42,33 @@ def cria_backup_json():
     data["clientes"] = clientes
 
     log("Criando arquivo JSON")
-    f = open("backup.json", "w") #cria o arquivo
+
+    dir = os.path.join(os.sep, 'c:\\', 'TEMP')
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+        os.chdir(dir)
+        os.makedirs("backup")
+    f = open(dir + os.sep + "backup" + os.sep + "backup.json", "w") #cria o arquivo
     json.dump(data, f, sort_keys=True, indent=4) #junta tudo no JSON
     f.close()
 
-#aqui entra a zica da compactação! :P
+    if not os.path.exists(caminho):
+        os.makedirs(caminho)
+    log("Comapactando:")
+    #aqui entra a zica da compactação! :P
+    path_zip = os.path.join(os.sep, caminho,  'backup.zip')
+    zf = z.ZipFile(path_zip, 'w')
+    for dirname, subdir, files in os.walk(dir):
+        log(".")
+        for directory in subdir:
+            log("..")
+            zf.write(directory)
+            for dirname, subdir, files in os.walk(directory):
+                log("...")
+                for arq in files:
+                    log("....")
+                    zf.write(os.path.join(dirname, arq))
+    zf.close()
+    log("Compactado")
 
-path_zip = os.path.join(os.sep, 'c:\\',  'backup.zip')
-zf = z.ZipFile(path_zip, 'w')
-for dirname, subdir, files in os.walk(dir):
-    for directory in subdir:
-        zf.write(directory)
-        for dirname, subdir, files in os.walk(directory):
-            for arq in files:
-                zf.write(os.path.join(dirname, arq))
-zf.close()
+    #adicionar comando para excluir pasta TEMP
