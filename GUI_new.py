@@ -37,7 +37,7 @@ class FramePrincipal(Frame):
         #------------------------
         super().__init__()
         self.master.iconbitmap("pedepizza.ico")
-        self.centralizar(700,700)
+        self.centralizar(700,500)
         self.master.title("Pé de Pizza")
         self.master.resizable(False, False)
         self.master["bg"] = self._cinza
@@ -60,8 +60,6 @@ class FramePrincipal(Frame):
         #------ Aba 2 Cliente ------
         #---------------------------
         frameCliente = Frame(notebook, bg=self._cinza)
-
-        
 
         self.addTitulo(frameCliente, " >> Cliente << ", self._branco, self._font4)
         #--Nome--
@@ -121,6 +119,8 @@ class FramePrincipal(Frame):
         self.bairroCliente = Entry(frameBairro, width=80, bg=self._branco, font=self._font2, textvariable=self.bairroClienteEntry)
         self.bairroCliente.pack(side=LEFT, fill=X)   
 
+        frameVazio = Frame(frameCliente, bg=self._cinza, height=100).pack(side=TOP, fill=X)
+
         frameBotoes = Frame(frameCliente, bg=self._cinza)
         frameBotoes.pack(side=BOTTOM, fill=X)
         self.btnAdicionarCliente = Button(frameBotoes, width=10, text="Adicionar", command=self.adicionarCliente)
@@ -136,7 +136,33 @@ class FramePrincipal(Frame):
         framePizzas = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(framePizzas, " >> Pizzas << ", self._branco, self._font4)
+        
+        #--Sabor--
+        self.addTitulo(framePizzas, "Sabor:", self._cinza,  self._font3, LEFT)
+        frameSabor = Frame(framePizzas, bg=self._cinza)
+        frameSabor.pack(side=TOP, fill=X)
+        self.saborPizzasEntry= StringVar()
+        self.saborPizzas = Entry(frameSabor, width=80, bg=self._branco, font=self._font2, textvariable=self.saborPizzasEntry )
+        self.saborPizzas.pack(side=LEFT, fill=X)
+        self.saborPizzas.focus_set()
+        
+        #--Valor--
+        self.addTitulo(framePizzas, "Valor:", self._cinza,  self._font3, LEFT)
+        frameValor = Frame(framePizzas, bg=self._cinza)
+        frameValor.pack(side=TOP, fill=X)
+        self.valorPizzasEntry= StringVar()
+        self.valorPizzas = Entry(frameValor, width=80, bg=self._branco, font=self._font2, textvariable=self.valorPizzasEntry)
+        self.valorPizzas.pack(side=LEFT, fill=X)
+        
+        frameVazio = Frame(framePizzas, bg=self._cinza, height=100).pack(side=TOP, fill=X)
 
+        frameBotoesPizzas = Frame(framePizzas, bg=self._cinza)
+        frameBotoesPizzas.pack(side=BOTTOM, fill=X)
+        self.btnAdicionarSabor = Button(frameBotoesPizzas, width=10, text="Adicionar", command=self.adicionarSabor)
+        self.btnAdicionarSabor.pack(side=RIGHT, padx=10)
+        self.btnLimparSabor = Button(frameBotoesPizzas, width=10, text="Limpar", command=self.limparSabor)
+        self.btnLimparSabor.pack(side=RIGHT, padx=10)
+        
         notebook.add(framePizzas, text=" Pizzas ")
 
         #---------------------------
@@ -213,7 +239,7 @@ class FramePrincipal(Frame):
 
         #---------------END ABAS-----------------
         notebook.pack(side=TOP, fill=X)
-    
+
     #---------------------------------------------------------------------
     def centralizar(self, larg, alt):
         px=int((self.master.winfo_screenwidth()-larg)/2)
@@ -292,6 +318,24 @@ class FramePrincipal(Frame):
     def exibirMensagem(self, msg):
         mbox.showinfo("Atenção", msg)
 
+    #---------------------------------------------------------------------
+    def adicionarSabor(self):
+        sabor = str(self.saborPizzasEntry.get())
+        valor = str(self.valorPizzasEntry.get()).replace(",", ".")
+        #valor = valor.replace(",", ".")
+    
+        pid = mp.insere_pizza(sabor, valor)
+        if pid:
+            self.exibirMensagem("Inserida com Sucesso")
+            self.limparSabor()
+        else:
+            self.exibirMensagem("Erro ao Inserir")
+
+    #---------------------------------------------------------------------
+    def limparSabor(self):
+        self.saborPizzasEntry.set("")
+        self.valorPizzasEntry.set("")
+        print("limpar")
 
     
 app = FramePrincipal()
