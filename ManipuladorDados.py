@@ -26,7 +26,7 @@ def desconecta(con):
 
 
 def insere_cliente(nome, telefone, cep=None, rua=None, numero=None, complemento=None, bairro= None):
-    sql = "INSERT INTO tb_clientes(nome, telefone, cep, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
+    sql = "INSERT INTO tb_clientes(nome, telefone, cep, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
     id_cliente = None
     try:
         con = conecta()

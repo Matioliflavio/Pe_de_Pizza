@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import tkinter.ttk as ttk
+from tkinter import messagebox as mbox
 import ManipuladorDados as mp
 
 
@@ -88,6 +89,37 @@ class FramePrincipal(Frame):
         self.cepCliente = Entry(frameCEP, width=80, bg=self._branco, font=self._font2, textvariable=self.cepClienteEntry)
         self.cepCliente.pack(side=LEFT, fill=X)
         
+        #--Rua--
+        self.addTitulo(frameCliente, "Rua:", self._cinza,  self._font3, LEFT)
+        frameRua = Frame(frameCliente, bg=self._cinza)
+        frameRua.pack(side=TOP, fill=X)
+        self.ruaClienteEntry= StringVar()
+        self.ruaCliente = Entry(frameRua, width=80, bg=self._branco, font=self._font2, textvariable=self.ruaClienteEntry)
+        self.ruaCliente.pack(side=LEFT, fill=X)
+
+        #--Numero--
+        self.addTitulo(frameCliente, "Numero:", self._cinza,  self._font3, LEFT)
+        frameNumero = Frame(frameCliente, bg=self._cinza)
+        frameNumero.pack(side=TOP, fill=X)
+        self.numeroClienteEntry= StringVar()
+        self.numeroCliente = Entry(frameNumero, width=80, bg=self._branco, font=self._font2, textvariable=self.numeroClienteEntry)
+        self.numeroCliente.pack(side=LEFT, fill=X)
+
+        #--Complemento--
+        self.addTitulo(frameCliente, "Complemento:", self._cinza,  self._font3, LEFT)
+        frameComplemento = Frame(frameCliente, bg=self._cinza)
+        frameComplemento.pack(side=TOP, fill=X)
+        self.complementoClienteEntry= StringVar()
+        self.complemento = Entry(frameComplemento, width=80, bg=self._branco, font=self._font2, textvariable=self.complementoClienteEntry)
+        self.complemento.pack(side=LEFT, fill=X)
+
+        #--Bairro--
+        self.addTitulo(frameCliente, "Bairro:", self._cinza,  self._font3, LEFT)
+        frameBairro = Frame(frameCliente, bg=self._cinza)
+        frameBairro.pack(side=TOP, fill=X)
+        self.bairroClienteEntry= StringVar()
+        self.bairroCliente = Entry(frameBairro, width=80, bg=self._branco, font=self._font2, textvariable=self.bairroClienteEntry)
+        self.bairroCliente.pack(side=LEFT, fill=X)   
 
         frameBotoes = Frame(frameCliente, bg=self._cinza)
         frameBotoes.pack(side=BOTTOM, fill=X)
@@ -151,6 +183,13 @@ class FramePrincipal(Frame):
         self.btnProcuraCaminho = Button(frameCaminho, width=10, text="Buscar", command=self.botaoProcuraCaminho)
         self.btnProcuraCaminho.pack(side=RIGHT)
 
+        frameBotoesExportar = Frame(frameExportar, bg=self._cinza)
+        frameBotoesExportar.pack(side=BOTTOM, fill=X)
+        self.btnExportarDados = Button(frameBotoesExportar, width=10, text="Exportar", command=self.exportarDados)
+        self.btnExportarDados.pack(side=RIGHT, padx=10)
+        self.btnLimparCliente = Button(frameBotoesExportar, width=10, text="Limpar", command=self.limparExportar)
+        self.btnLimparCliente.pack(side=RIGHT, padx=10)
+
         notebook.add(frameExportar, text=" Exportar ")
 
         #-------------------------
@@ -208,16 +247,30 @@ class FramePrincipal(Frame):
     #---------------------------------------------------------------------
     def adicionarCliente(self):
         print("adicionando")
-        nome = self.nomeCliente.get()
-        telefone = self.telefoneCliente.get()
-        cep = self.cepCliente.get()
-        print("%s, %s, %s" %(nome, telefone, cep))
+        nome = str(self.nomeCliente.get())
+        telefone = str(self.telefoneCliente.get())
+        cep = str(self.cepCliente.get())
+        rua = str(self.ruaClienteEntry.get())
+        numero = str(self.numeroClienteEntry.get())
+        complemento = str(self.complementoClienteEntry.get())
+        bairro = str(self.bairroClienteEntry.get())
+        cid=None
+        cid = mp.insere_cliente(nome, telefone, cep, rua, numero, complemento, bairro)
+        if cid:
+            self.exibirMensagem("%s, ID: %s adicionado " %(cliente, cid))
+            self.limparCliente()
+        else:
+            self.exibirMensagem("Falha ao adicionar")    
 
     #---------------------------------------------------------------------
     def limparCliente(self):
         self.nomeClienteEntry.set("")
         self.telefoneClienteEntry.set("")
         self.cepClienteEntry.set("")
+        self.ruaClienteEntry.set("")
+        self.complementoClienteEntry.set("")                
+        self.numeroClienteEntry.set("")
+        self.bairroClienteEntry.set("")
         print("limpar")
         
     
@@ -226,7 +279,19 @@ class FramePrincipal(Frame):
         caminho = filedialog.askdirectory()
         self.entradaCaminho.set(caminho)
         print(caminho)
-    
+
+    #---------------------------------------------------------------------    
+    def exportarDados(self):
+        print("exportar")
+
+    #---------------------------------------------------------------------    
+    def limparExportar(self):
+        self.entradaCaminho.set("")
+
+    #---------------------------------------------------------------------
+    def exibirMensagem(self, msg):
+        mbox.showinfo("Atenção", msg)
+
 
     
 app = FramePrincipal()
