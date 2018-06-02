@@ -42,6 +42,50 @@
             "numero" : "69",
             "complemento" : null,
             "bairro" : "ALAGADOS"
+        },
+
+        {
+            "id_cliente" : 16,
+            "nome" : "DANIEL SOCORRO",
+            "telefone" : "(16)99999-2222",
+            "cep": "12345-100",
+            "rua" : "DAS OLIVEIRAS",
+            "numero" : "169",
+            "complemento" : null,
+            "bairro" : "ALAGADOS"
+        },
+
+        {
+            "id_cliente" : 17,
+            "nome" : "HOMER SIMPSON",
+            "telefone" : "(16)99999-333",
+            "cep": "12345-220",
+            "rua" : "ROCHOSA",
+            "numero" : "300",
+            "complemento" : null,
+            "bairro" : "SPRINGFILD"
+        },
+
+        {
+            "id_cliente" : 18,
+            "nome" : "RENATO RUSSO",
+            "telefone" : "(16)99999-3333",
+            "cep": "12345-444",
+            "rua" : "ESPLANADA",
+            "numero" : "255",
+            "complemento" : null,
+            "bairro" : "PIRATINGA"
+        },
+
+        {
+            "id_cliente" : 19,
+            "nome" : "FLAVIO MATIOLI",
+            "telefone" : "(16)99999-2222",
+            "cep": "12345-444",
+            "rua" : "AV EUROPA",
+            "numero" : "555",
+            "complemento" : "AP 22",
+            "bairro" : "JARDINS"
         }
 
         ],
@@ -74,6 +118,36 @@
             "id_pizza" : 15,
             "sabor" : "FRANGO COM CATUPIRY",
             "valor" : 31.20
+        },
+
+        {
+            "id_pizza" : 16,
+            "sabor" : "BAIANA",
+            "valor" : 32.20
+        },
+
+        {
+            "id_pizza" : 17,
+            "sabor" : "LOMBO",
+            "valor" : 30.10
+        },
+
+        {
+            "id_pizza" : 18,
+            "sabor" : "QUATRO QUEIJOS",
+            "valor" : 29.90
+        },
+
+        {
+            "id_pizza" : 19,
+            "sabor" : "AMERICANA",
+            "valor" : 35.20
+        },
+
+        {
+            "id_pizza" : 20,
+            "sabor" : "PEPERONI",
+            "valor" : 34.70
         }
         ]
 

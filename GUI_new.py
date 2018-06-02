@@ -49,18 +49,18 @@ class FramePrincipal(Frame):
         #criando noteBook. Aka "container de abas"
         notebook = ttk.Notebook(self.master)
 
-        #--------------------------
+        ################################################################################################
         #------ Aba 1 Pedido ------
-        #--------------------------
+        ################################################################################################
         framePedido = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(framePedido, " >> Pedido << ", self._branco, self._font4)
         
         notebook.add(framePedido, text=" Pedido ")
 
-        #---------------------------
+        ################################################################################################
         #------ Aba 2 Cliente ------
-        #---------------------------
+        ################################################################################################
         frameCliente = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameCliente, " >> Cliente << ", self._branco, self._font4)
@@ -132,9 +132,9 @@ class FramePrincipal(Frame):
 
         notebook.add(frameCliente, text=" Cliente ")
 
-        #--------------------------
+        ################################################################################################
         #------ Aba 3 Pizzas ------
-        #--------------------------
+        ################################################################################################
         framePizzas = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(framePizzas, " >> Pizzas << ", self._branco, self._font4)
@@ -167,27 +167,77 @@ class FramePrincipal(Frame):
         
         notebook.add(framePizzas, text=" Pizzas ")
 
-        #---------------------------
+        ################################################################################################
         #------ Aba 4 Deletar ------
-        #---------------------------
+        ################################################################################################
         frameDeletar = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameDeletar, " >> Deletar << ", self._branco, self._font4)
 
+        def listarClientes():
+            self.listaDeletar.delete(0, END)
+            self.tipoDeletar = "C" 
+            clientes = mp.lista_clientes()
+            for cliente in clientes:
+                cl = str(cliente[0]) + " - " + cliente[1]
+                self.listaDeletar.insert(END, cl)
+        
+        def listarPizzas():
+            self.listaDeletar.delete(0, END)
+            self.tipoDeletar = "P"
+            pizzas = mp.lista_pizzas()
+            for pizza in pizzas:
+                p= str(pizza[0]) + " - " + pizza[1]
+                self.listaDeletar.insert(END, p)
+        
+        def limparLista():
+            self.tipoDeletar = ""
+            self.listaDeletar.delete(0, END)
+
+        frameBotoesSelecDeletar = Frame(frameDeletar, bg=self._cinza)
+        frameBotoesSelecDeletar.pack(side=TOP, fill=BOTH)
+        self.btnListarClientes = Button(frameBotoesSelecDeletar, width=10, text="Listar Clientes", command=listarClientes)
+        self.btnListarClientes.pack(side=LEFT, padx=10, pady=10)
+        self.btnListarPizzas = Button(frameBotoesSelecDeletar, width=10, text="Listar Pizzas", command=listarPizzas)
+        self.btnListarPizzas.pack(side=LEFT, padx=10, pady=10)
+        
+
+        
+        frameListarDeletar = Frame(frameDeletar , bg=self._cinza, height=100)
+        frameListarDeletar.pack(side=TOP,fill=X)
+
+        scrollY = Scrollbar(frameListarDeletar, orient=VERTICAL)
+        self.listaDeletar = Listbox(frameListarDeletar, yscrollcommand=scrollY.set, height=10, font=self._font2, selectmode=SINGLE)
+
+        self.listaDeletar.bind("<<ListboxSelect>>", self.onListSelect)
+        self.listaDeletar.pack(side=LEFT,fill=X,expand=True)
+
+        self.listaDeletar.select_set(0)
+        scrollY["command"] = self.listaDeletar.yview
+        scrollY.pack(side=LEFT,fill=Y)
+
+        frameBotoesDeletar = Frame(frameDeletar, bg=self._cinza)
+        frameBotoesDeletar.pack(side=BOTTOM, fill=BOTH)
+        self.btnDeletarSelecionado = Button(frameBotoesDeletar, width=10, text="Deletar", command=self.deletarSelecionado)
+        self.btnDeletarSelecionado.pack(side=RIGHT, padx=10, pady=10)
+        self.btnListarPizzas = Button(frameBotoesDeletar, width=10, text="Limpar Lista", command=limparLista)
+        self.btnListarPizzas.pack(side=RIGHT, padx=10, pady=10)
+    
+        
         notebook.add(frameDeletar, text=" Deletar ")
 
-        #-------------------------------
+        ################################################################################################
         #------ Aba 5 Faturamento ------
-        #-------------------------------
+        ################################################################################################
         frameFaturamento = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameFaturamento, " >> Faturamento << ", self._branco, self._font4)
 
         notebook.add(frameFaturamento, text=" Faturamento ")
 
-        #----------------------------
+        ################################################################################################
         #------ Aba 6 Importar ------
-        #----------------------------
+        ################################################################################################
         frameImportar = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameImportar, " >> Importar << ", self._branco, self._font4)
@@ -209,9 +259,9 @@ class FramePrincipal(Frame):
 
         notebook.add(frameImportar, text=" Importar ")
 
-        #----------------------------
-        #------ Aba 7 Exportar ------
-        #----------------------------
+        ################################################################################################
+        #>>>>>> Aba 7 Exportar #########################################################################
+        ################################################################################################
         frameExportar = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameExportar, " >> Exportar << ", self._branco, self._font4)
@@ -235,18 +285,18 @@ class FramePrincipal(Frame):
 
         notebook.add(frameExportar, text=" Exportar ")
 
-        #-------------------------
+        ################################################################################################
         #------ Aba 8 Dados ------
-        #-------------------------
+        ################################################################################################
         frameDados = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameDados, " >> Dados << ", self._branco, self._font4)
 
         notebook.add(frameDados, text=" Dados ")
 
-        #------------------------
+        ################################################################################################
         #------ Aba 9 Info ------
-        #------------------------
+        ################################################################################################
         frameInfo = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameInfo, " >> Info << ", self._branco, self._font4)
@@ -270,6 +320,7 @@ class FramePrincipal(Frame):
         self.texto = Label(self.frame,bg=corFundo, font=fonte, text=titulo)
         self.texto.pack(side=justificado) 
 
+    '''
     #---------------------------------------------------------------------
     #nao sera usado
     def addEntrada(self, frame, corFundo=_cinza, fonte=_font2, justificado=TOP):
@@ -286,6 +337,7 @@ class FramePrincipal(Frame):
         var= StringVar() 
         self.botao = Button(self.frame, text=texto, command=var)
         self.botao.pack(side=botaoPos) 
+    '''
     
     #---------------------------------------------------------------------
     def adicionarCliente(self):
@@ -316,7 +368,6 @@ class FramePrincipal(Frame):
         self.bairroClienteEntry.set("")
         print("limpar")
         
-    
     #---------------------------------------------------------------------    
     def botaoProcuraCaminho(self):
         caminho = filedialog.askdirectory()
@@ -367,6 +418,26 @@ class FramePrincipal(Frame):
         self.valorPizzasEntry.set("")
         print("limpar")
 
-    
+    # --------------------------------------------
+    def onListSelect(self, arg):
+        pos = self.listaDeletar.curselection()
+        self.itemDeletar = self.listaDeletar.get(pos)
+        print("Item: %s" %self.itemDeletar)
+        
+    # --------------------------------------------
+    def deletarSelecionado(self):
+        id= self.itemDeletar[0]
+        print(id)
+        if self.tipoDeletar == "P":
+            self.exibirMensagem("Deletando %s" %self.itemDeletar)
+            mp.deleta_pizza_por_id(id)
+        elif self.tipoDeletar == "C":
+            mp.deleta_cliente_por_id(id)
+            self.exibirMensagem("Deletando %s" %self.itemDeletar)
+        else:
+            self.exibirMensagem("Selecione um item para deletar!")
+            print("nada selecionado")
+
+
 app = FramePrincipal()
 app.mainloop()
