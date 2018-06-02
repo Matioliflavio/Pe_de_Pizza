@@ -86,6 +86,17 @@
             "numero" : "555",
             "complemento" : "AP 22",
             "bairro" : "JARDINS"
+        },
+
+        {
+            "id_cliente" : 20,
+            "nome" : "FAUSTO SILVA",
+            "telefone" : "(16)99999-1710",
+            "cep": "12345-123",
+            "rua" : "AV CHUCRI ZIDAN",
+            "numero" : "555",
+            "complemento" : "5O ANDAR",
+            "bairro" : "BERRINI"
         }
 
         ],
@@ -148,7 +159,56 @@
             "id_pizza" : 20,
             "sabor" : "PEPERONI",
             "valor" : 34.70
+        },
+
+        {
+            "id_pizza" : 21,
+            "sabor" : "CALIFORNIA",
+            "valor" : 29.80
+        },
+
+        {
+            "id_pizza" : 22,
+            "sabor" : "ESCAROLA",
+            "valor" : 12.50
+        },
+
+        {
+            "id_pizza" : 23,
+            "sabor" : "TOMATE SECO COM RUCULA",
+            "valor" : 32.30
+        },
+
+        {
+            "id_pizza" : 23,
+            "sabor" : "VEGETARIANA",
+            "valor" : 99.90
+        },
+
+        {
+            "id_pizza" : 24,
+            "sabor" : "ABOBRINHA",
+            "valor" : 89.90
+        },
+
+        {
+            "id_pizza" : 25,
+            "sabor" : "BERINJELA",
+            "valor" : 89.90
+        },
+
+        {
+            "id_pizza" : 26,
+            "sabor" : "ATUM",
+            "valor" : 15.00
+        },
+
+        {
+            "id_pizza" : 27,
+            "sabor" : "SARDINHA",
+            "valor" : 10.00
         }
+
         ]
 
 }

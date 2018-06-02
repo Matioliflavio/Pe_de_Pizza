@@ -23,10 +23,10 @@ class FramePrincipal(Frame):
 
     #Strings
     _info = '''Pé de Pizza é uma aplicação para gerenciamento de pizzaria.
-        Desenvolvido na linguagem Python,
-        o programa tem seu código fonte aberto, 
-        esta licenciado sobre os termos do MIT 
-        e pode ser baixado diretamento no gitHub pelo seguinte link:  '''
+        Desenvolvido na linguagem Python, o programa tem seu código fonte aberto, 
+        esta licenciado sobre os termos do MIT e pode ser baixado diretamente 
+        do gitHub, pelo seguinte link:  '''
+    _link = "https://github.com/Matioliflavio/Pe_de_Pizza"
     _autores = "Flavio Matioli & Gabriel Nardini"
     _empresa = "PyCaretas LTDA"
 
@@ -39,7 +39,7 @@ class FramePrincipal(Frame):
         #------------------------
         super().__init__()
         self.master.iconbitmap("pedepizza.ico")
-        self.centralizar(700,500)
+        self.centralizar(600,500)
         self.master.title("Pé de Pizza")
         self.master.resizable(False, False)
         self.master["bg"] = self._cinza
@@ -55,11 +55,45 @@ class FramePrincipal(Frame):
         framePedido = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(framePedido, " >> Pedido << ", self._branco, self._font4)
+
+        self.addTitulo(framePedido, "Cliente:", self._cinza, self._font2, LEFT)
+        self.frameBuscaTitulo = Frame(framePedido, bg=self._cinza)
+        self.frameBuscaTitulo.pack(side=TOP, fill=X)
+        self.buscaClienteEntry= StringVar()
+        self.buscaCliente = Entry(self.frameBuscaTitulo, width=53, bg=self._branco, font=self._font2, textvariable=self.buscaClienteEntry )
+        self.buscaCliente.pack(side=LEFT, fill=X)
+        self.buscaCliente.focus_set()
+        self.btnBuscaCliente = Button(self.frameBuscaTitulo, width=10, text="Buscar", command=self.botaoBuscaCliente)
+        self.btnBuscaCliente.pack(side=LEFT, padx=10)
+
+        self.frameResultadoBusca = Frame(framePedido, bg=self._cinza)
+        self.frameResultadoBusca.pack(side=TOP, fill=X)
+        scrollY = Scrollbar(self.frameResultadoBusca, orient=VERTICAL)
+        self.listaBusca = Listbox(self.frameResultadoBusca, yscrollcommand=scrollY.set, height=3, width=50, font=self._font2, selectmode=SINGLE)
+
+        self.listaBusca.bind("<<ListboxSelect>>", self.onListSelect)
+        self.listaBusca.pack(side=LEFT,fill=X,expand=True, pady=5)
+
+        self.listaBusca.select_set(0)
+        scrollY["command"] = self.listaBusca.yview
+        scrollY.pack(side=LEFT,fill=Y, pady=5)
+
+        self.addTitulo(framePedido, "Pizza:", self._cinza, self._font2, LEFT)
+        self.framePizzaPedido = Frame(framePedido, bg=self._cinza)
+        self.framePizzaPedido.pack(side=TOP, fill=X)
+        self.pizzas = mp.lista_pizzas()
+        self.pz= []
+        for pizza in self.pizzas:
+                self.pz.append(str(pizza[0]) + " - " + pizza[1])
+        self.comboPizzaPedido = ttk.Combobox(self.framePizzaPedido, font=self._font2, width=50, values=self.pz)
+        self.comboPizzaPedido.pack(side=LEFT, fill=X)
+        self.btnSelecionarPizza = Button(self.framePizzaPedido, width=10, text="Selecionar", command=self.botaoBuscaCliente)
+        self.btnSelecionarPizza.pack(side=LEFT, padx=10)
         
         notebook.add(framePedido, text=" Pedido ")
 
         ################################################################################################
-        #------ Aba 2 Cliente ------
+        #>>>>>> Aba 2 Cliente #################################### FUNCIONANDO #########################
         ################################################################################################
         frameCliente = Frame(notebook, bg=self._cinza)
 
@@ -133,7 +167,7 @@ class FramePrincipal(Frame):
         notebook.add(frameCliente, text=" Cliente ")
 
         ################################################################################################
-        #------ Aba 3 Pizzas ------
+        #>>>>>>> Aba 3 Pizzas #################################### FUNCIONANDO #########################
         ################################################################################################
         framePizzas = Frame(notebook, bg=self._cinza)
 
@@ -168,7 +202,7 @@ class FramePrincipal(Frame):
         notebook.add(framePizzas, text=" Pizzas ")
 
         ################################################################################################
-        #------ Aba 4 Deletar ------
+        #>>>>>> Aba 4 Deletar #################################### FUNCIONANDO #########################
         ################################################################################################
         frameDeletar = Frame(notebook, bg=self._cinza)
 
@@ -219,9 +253,9 @@ class FramePrincipal(Frame):
         frameBotoesDeletar = Frame(frameDeletar, bg=self._cinza)
         frameBotoesDeletar.pack(side=BOTTOM, fill=BOTH)
         self.btnDeletarSelecionado = Button(frameBotoesDeletar, width=10, text="Deletar", command=self.deletarSelecionado)
-        self.btnDeletarSelecionado.pack(side=RIGHT, padx=10, pady=10)
+        self.btnDeletarSelecionado.pack(side=RIGHT, padx=10)
         self.btnListarPizzas = Button(frameBotoesDeletar, width=10, text="Limpar Lista", command=limparLista)
-        self.btnListarPizzas.pack(side=RIGHT, padx=10, pady=10)
+        self.btnListarPizzas.pack(side=RIGHT, padx=10)
     
         
         notebook.add(frameDeletar, text=" Deletar ")
@@ -236,7 +270,7 @@ class FramePrincipal(Frame):
         notebook.add(frameFaturamento, text=" Faturamento ")
 
         ################################################################################################
-        #------ Aba 6 Importar ------
+        #>>>>> Aba 6 Importar #################################### FUNCIONANDO #########################
         ################################################################################################
         frameImportar = Frame(notebook, bg=self._cinza)
 
@@ -260,7 +294,7 @@ class FramePrincipal(Frame):
         notebook.add(frameImportar, text=" Importar ")
 
         ################################################################################################
-        #>>>>>> Aba 7 Exportar #########################################################################
+        #>>>>>> Aba 7 Exportar #################################### FUNCIONANDO ########################
         ################################################################################################
         frameExportar = Frame(notebook, bg=self._cinza)
 
@@ -270,7 +304,7 @@ class FramePrincipal(Frame):
         frameCaminho = Frame(frameExportar, bg=self._cinza)
         frameCaminho.pack(side=TOP, fill=X)
         self.exportaCaminhoEntry = StringVar()
-        self.caminhoExportar = Entry(frameCaminho, width=80, bg=self._branco, font=self._font2, textvariable=self.exportaCaminhoEntry)
+        self.caminhoExportar = Entry(frameCaminho, width=70, bg=self._branco, font=self._font2, textvariable=self.exportaCaminhoEntry)
         self.caminhoExportar.pack(side=LEFT, fill=X)
         self.caminhoExportar.focus_set()
         self.btnProcuraCaminho = Button(frameCaminho, width=10, text="Buscar", command=self.botaoProcuraCaminho)
@@ -295,11 +329,16 @@ class FramePrincipal(Frame):
         notebook.add(frameDados, text=" Dados ")
 
         ################################################################################################
-        #------ Aba 9 Info ------
+        #>>>>>>> Aba 9 Info #################################### FUNCIONANDO ###########################
         ################################################################################################
         frameInfo = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameInfo, " >> Info << ", self._branco, self._font4)
+        self.addTitulo(frameInfo, self._info, self._cinza, self._font3)
+        self.addTitulo(frameInfo, self._link, self._branco, self._font3)
+        self.addTitulo(frameInfo, " ", self._cinza, self._font4)
+        self.addTitulo(frameInfo, self._autores, self._cinza, self._font2)
+        self.addTitulo(frameInfo, self._empresa, self._cinza, self._font2)
 
         notebook.add(frameInfo, text=" Info ")
 
@@ -320,39 +359,20 @@ class FramePrincipal(Frame):
         self.texto = Label(self.frame,bg=corFundo, font=fonte, text=titulo)
         self.texto.pack(side=justificado) 
 
-    '''
-    #---------------------------------------------------------------------
-    #nao sera usado
-    def addEntrada(self, frame, corFundo=_cinza, fonte=_font2, justificado=TOP):
-        self.frame = Frame(frame, bg=corFundo, height=80)
-        self.frame.pack(side=TOP,fill=X)
-        self.entrada = Entry(self.frame, width=80, bg=self._branco, font=fonte)
-        self.entrada.pack(side=LEFT, fill=X)
-
-    #---------------------------------------------------------------------
-    # Não será usado
-    def addBotao(self, frame, texto, fonte=_font2, framePos=TOP, botaoPos=RIGHT):
-        self.frame = Frame(frame, bg=self._cinza, height=80)
-        self.frame.pack(side=framePos,fill=X)
-        var= StringVar() 
-        self.botao = Button(self.frame, text=texto, command=var)
-        self.botao.pack(side=botaoPos) 
-    '''
-    
     #---------------------------------------------------------------------
     def adicionarCliente(self):
         print("adicionando")
-        nome = str(self.nomeCliente.get())
+        nome = str(self.nomeCliente.get()).upper()
         telefone = str(self.telefoneCliente.get())
         cep = str(self.cepCliente.get())
-        rua = str(self.ruaClienteEntry.get())
+        rua = str(self.ruaClienteEntry.get())#.upper
         numero = str(self.numeroClienteEntry.get())
-        complemento = str(self.complementoClienteEntry.get())
-        bairro = str(self.bairroClienteEntry.get())
+        complemento = str(self.complementoClienteEntry.get())#.upper()
+        bairro = str(self.bairroClienteEntry.get())#.upper()
         cid=None
         cid = mp.insere_cliente(nome, telefone, cep, rua, numero, complemento, bairro)
         if cid:
-            self.exibirMensagem("%s, ID: %s adicionado " %(cliente, cid))
+            self.exibirMensagem("%s, ID: %s adicionado " %(nome, cid))
             self.limparCliente()
         else:
             self.exibirMensagem("Falha ao adicionar")    
@@ -395,7 +415,7 @@ class FramePrincipal(Frame):
 
     #---------------------------------------------------------------------    
     def limparExportar(self):
-        self.entradaCaminho.set("")
+        self.exportaCaminhoEntry.set("")
 
     #---------------------------------------------------------------------
     def exibirMensagem(self, msg):
@@ -403,7 +423,7 @@ class FramePrincipal(Frame):
 
     #---------------------------------------------------------------------
     def adicionarSabor(self):
-        sabor = str(self.saborPizzasEntry.get())
+        sabor = str(self.saborPizzasEntry.get()).upper()
         valor = str(self.valorPizzasEntry.get()).replace(",", ".")
         pid = mp.insere_pizza(sabor, valor)
         if pid:
@@ -438,6 +458,10 @@ class FramePrincipal(Frame):
             self.exibirMensagem("Selecione um item para deletar!")
             print("nada selecionado")
 
+    #---------------------------------------------
+    def botaoBuscaCliente(self):
+        print("Buscando")
+        print(mp.busca_clientes(self.buscaClienteEntry.get()))
 
 app = FramePrincipal()
 app.mainloop()

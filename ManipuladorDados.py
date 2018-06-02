@@ -167,6 +167,20 @@ def lista_pizza_por_id(id):
         log(erro)
     return pizza #mesmo com erro retorna None
 
+def busca_clientes(parcial):
+    sql = "SELECT * FROM tb_clientes WHERE nome LIKE %(like)s;"
+    log("Buscando Todos os clientes")
+    clientes = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(sql, dict(like= '%'+parcial.upper()+'%'))
+        clientes = cur.fetchall()
+        log("Itens retornados com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return clientes #mesmo com erro retorna None
 
     #////////////////////////////////
     #//////////  DELETES  ///////////
