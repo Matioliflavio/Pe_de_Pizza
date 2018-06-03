@@ -59,6 +59,7 @@ class FramePrincipal(Frame):
         self.addTitulo(framePedido, "Cliente:", self._cinza, self._font2, LEFT)
         self.frameBuscaTitulo = Frame(framePedido, bg=self._cinza)
         self.frameBuscaTitulo.pack(side=TOP, fill=X)
+        #Busca Cliente
         self.buscaClienteEntry= StringVar()
         self.buscaCliente = Entry(self.frameBuscaTitulo, width=53, bg=self._branco, font=self._font2, textvariable=self.buscaClienteEntry )
         self.buscaCliente.pack(side=LEFT, fill=X)
@@ -66,18 +67,18 @@ class FramePrincipal(Frame):
         self.btnBuscaCliente = Button(self.frameBuscaTitulo, width=10, text="Buscar", command=self.botaoBuscaCliente)
         self.btnBuscaCliente.pack(side=LEFT, padx=10)
 
+        #lista de busca
         self.frameResultadoBusca = Frame(framePedido, bg=self._cinza)
         self.frameResultadoBusca.pack(side=TOP, fill=X)
-        scrollY = Scrollbar(self.frameResultadoBusca, orient=VERTICAL)
-        self.listaBusca = Listbox(self.frameResultadoBusca, yscrollcommand=scrollY.set, height=3, width=50, font=self._font2, selectmode=SINGLE)
-
-        self.listaBusca.bind("<<ListboxSelect>>", self.onListSelect)
+        scrollYCliente = Scrollbar(self.frameResultadoBusca, orient=VERTICAL)
+        self.listaBusca = Listbox(self.frameResultadoBusca, yscrollcommand=scrollYCliente.set, height=3, width=50, font=self._font2, selectmode=SINGLE)
+        self.listaBusca.bind("<<ListboxSelect>>", self.onListSelectBusca)
         self.listaBusca.pack(side=LEFT,fill=X,expand=True, pady=5)
-
         self.listaBusca.select_set(0)
-        scrollY["command"] = self.listaBusca.yview
-        scrollY.pack(side=LEFT,fill=Y, pady=5)
+        scrollYCliente["command"] = self.listaBusca.yview
+        scrollYCliente.pack(side=LEFT,fill=Y, pady=5)
 
+        #seleção Pizza
         self.addTitulo(framePedido, "Pizza:", self._cinza, self._font2, LEFT)
         self.framePizzaPedido = Frame(framePedido, bg=self._cinza)
         self.framePizzaPedido.pack(side=TOP, fill=X)
@@ -87,8 +88,13 @@ class FramePrincipal(Frame):
                 self.pz.append(str(pizza[0]) + " - " + pizza[1])
         self.comboPizzaPedido = ttk.Combobox(self.framePizzaPedido, font=self._font2, width=50, values=self.pz)
         self.comboPizzaPedido.pack(side=LEFT, fill=X)
-        self.btnSelecionarPizza = Button(self.framePizzaPedido, width=10, text="Selecionar", command=self.botaoBuscaCliente)
-        self.btnSelecionarPizza.pack(side=LEFT, padx=10)
+        self.meia = IntVar()
+        ckbMeiaPizza = Checkbutton(self.framePizzaPedido,bg=self._cinza,font=self._font2, text="Meia", variable=self.meia, command=self.meiaSelect)
+        ckbMeiaPizza.pack(side=LEFT, padx=10)
+        self.btnAdicionarPizzaPedido = Button(self.framePizzaPedido, width=20, text="Adicionar ao Pedido", command=self.botaoAdicionarPizzaPedido)
+        self.btnAdicionarPizzaPedido.pack(side=LEFT, padx=10)
+
+        #listaPedido
         
         notebook.add(framePedido, text=" Pedido ")
 
@@ -284,6 +290,20 @@ class FramePrincipal(Frame):
         self.caminhoImportar.pack(side=LEFT, fill=X)
         self.caminhoImportar.focus_set()
 
+        #lista Rsultado Import
+        self.frameResultadoImport = Frame(frameImportar, bg=self._cinza)
+        self.frameResultadoImport.pack(side=TOP, fill=X)
+        self.frameResultadoImportXscr = Frame(frameImportar, bg=self._cinza)
+        self.frameResultadoImportXscr.pack(side=TOP, fill=X)
+        scrollYImport = Scrollbar(self.frameResultadoImport, orient=VERTICAL)
+        scrollXImport = Scrollbar(self.frameResultadoImportXscr, orient=HORIZONTAL)
+        self.listaImport = Listbox(self.frameResultadoImport, yscrollcommand=scrollYImport.set, xscrollcommand=scrollXImport.set, height=19, width=50, font=self._font2, selectmode=SINGLE)
+        self.listaImport.pack(side=LEFT,fill=X,expand=True, pady=5)
+        scrollYImport["command"] = self.listaImport.yview
+        scrollYImport.pack(side=LEFT,fill=Y, pady=5)
+        scrollXImport["command"] = self.listaImport.xview
+        scrollXImport.pack(side=BOTTOM,fill=X)
+
         frameBotoesImportar = Frame(frameImportar, bg=self._cinza)
         frameBotoesImportar.pack(side=BOTTOM, fill=X)
         self.btnInportarDados = Button(frameBotoesImportar, width=10, text="Importar", command=self.importarDados)
@@ -398,13 +418,16 @@ class FramePrincipal(Frame):
     def importarDados(self):
         print("importar")
         url = str(self.importaUrlEntry.get())
-        imp.importa_dados(url)
+        self.resultadoImport = imp.importa_dados(url)
+        for item in self.resultadoImport:
+            self.listaImport.insert(END, str(item).replace("\'", "").replace("{", "").replace("}", ""))
         self.exibirMensagem("Importação Concluída!")
-        self.limparImportar()
+        self.importaUrlEntry.set("")
 
     #---------------------------------------------------------------------    
     def limparImportar(self):
         self.importaUrlEntry.set("")
+        self.listaImport.delete(0, END)
 
     #---------------------------------------------------------------------    
     def exportarDados(self):
@@ -461,7 +484,27 @@ class FramePrincipal(Frame):
     #---------------------------------------------
     def botaoBuscaCliente(self):
         print("Buscando")
-        print(mp.busca_clientes(self.buscaClienteEntry.get()))
+        self.listaBusca.delete(0, END)
+        procura = self.buscaClienteEntry.get()
+        clientes = mp.busca_clientes(procura)
+        for cliente in clientes:
+            cl = str(cliente[0]) + " - " + cliente[1]
+            self.listaBusca.insert(END, cl)
+
+    # --------------------------------------------
+    def onListSelectBusca(self, arg):
+        pos = self.listaBusca.curselection()
+        self.clienteSelecionado = self.listaBusca.get(pos)
+        print("Item: %s" %self.clienteSelecionado)
+
+    #---------------------------------------------
+    def botaoAdicionarPizzaPedido(self):
+        print("add")
+
+    #---------------------------------------------
+    def meiaSelect(self):
+        print("meiaSelect")
+
 
 app = FramePrincipal()
 app.mainloop()
