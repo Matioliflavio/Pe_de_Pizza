@@ -61,22 +61,28 @@ class FramePrincipal(Frame):
         self.frameBuscaTitulo.pack(side=TOP, fill=X)
         #Busca Cliente
         self.buscaClienteEntry= StringVar()
-        self.buscaCliente = Entry(self.frameBuscaTitulo, width=53, bg=self._branco, font=self._font2, textvariable=self.buscaClienteEntry )
+        self.buscaCliente = Entry(self.frameBuscaTitulo, width=70, bg=self._branco, font=self._font2, textvariable=self.buscaClienteEntry )
         self.buscaCliente.pack(side=LEFT, fill=X)
         self.buscaCliente.focus_set()
-        self.btnBuscaCliente = Button(self.frameBuscaTitulo, width=10, text="Buscar", command=self.botaoBuscaCliente)
+        self.btnBuscaCliente = Button(self.frameBuscaTitulo, width=10, text="Filtrar", command=self.botaoBuscaCliente)
         self.btnBuscaCliente.pack(side=LEFT, padx=10)
 
         #lista de busca
         self.frameResultadoBusca = Frame(framePedido, bg=self._cinza)
         self.frameResultadoBusca.pack(side=TOP, fill=X)
         scrollYCliente = Scrollbar(self.frameResultadoBusca, orient=VERTICAL)
-        self.listaBusca = Listbox(self.frameResultadoBusca, yscrollcommand=scrollYCliente.set, height=3, width=50, font=self._font2, selectmode=SINGLE)
+        self.listaBusca = Listbox(self.frameResultadoBusca, yscrollcommand=scrollYCliente.set, height=4, width=50, font=self._font2, selectmode=SINGLE)
         self.listaBusca.bind("<<ListboxSelect>>", self.onListSelectBusca)
         self.listaBusca.pack(side=LEFT,fill=X,expand=True, pady=5)
         self.listaBusca.select_set(0)
         scrollYCliente["command"] = self.listaBusca.yview
         scrollYCliente.pack(side=LEFT,fill=Y, pady=5)
+        
+        self.botaoBuscaCliente()
+
+        self.btnAdidcionarPedidoCliente = Button(self.frameResultadoBusca, width=10, text="Criar Pedido", state=DISABLED, command=self.criaPedido)
+        self.btnAdidcionarPedidoCliente.pack(side=BOTTOM, padx=10)
+        self.addTitulo(framePedido, " ", self._cinza, self._font1, LEFT)
 
         #seleção Pizza
         self.addTitulo(framePedido, "Pizza:", self._cinza, self._font2, LEFT)
@@ -86,18 +92,37 @@ class FramePrincipal(Frame):
         self.pz= []
         for pizza in self.pizzas:
                 self.pz.append(str(pizza[0]) + " - " + pizza[1])
-        self.comboPizzaPedido = ttk.Combobox(self.framePizzaPedido, font=self._font2, width=50, values=self.pz)
+        self.comboPizzaPedido = ttk.Combobox(self.framePizzaPedido, font=self._font2, width=50, values=self.pz, state=DISABLED)
         self.comboPizzaPedido.pack(side=LEFT, fill=X)
         self.meia = IntVar()
-        ckbMeiaPizza = Checkbutton(self.framePizzaPedido,bg=self._cinza,font=self._font2, text="Meia", variable=self.meia, command=self.meiaSelect)
-        ckbMeiaPizza.pack(side=LEFT, padx=10)
-        self.btnAdicionarPizzaPedido = Button(self.framePizzaPedido, width=20, text="Adicionar ao Pedido", command=self.botaoAdicionarPizzaPedido)
+        self.ckbMeiaPizza = Checkbutton(self.framePizzaPedido,bg=self._cinza,font=self._font2, text="Meia", state=DISABLED, variable=self.meia, command=self.meiaSelect)
+        self.ckbMeiaPizza.pack(side=LEFT, padx=10)
+        self.btnAdicionarPizzaPedido = Button(self.framePizzaPedido, width=20, text="Adicionar ao Pedido", state=DISABLED,command=self.botaoAdicionarPizzaPedido)
         self.btnAdicionarPizzaPedido.pack(side=LEFT, padx=10)
 
         #listaPedido
-        
-        notebook.add(framePedido, text=" Pedido ")
+        self.addTitulo(framePedido, " ", self._cinza, self._font1, LEFT)
+        self.addTitulo(framePedido, "Pedido: ", self._cinza, self._font2, LEFT)
+        self.frameListaPedido = Frame(framePedido, bg=self._cinza)
+        self.frameListaPedido.pack(side=TOP, fill=X)
+        scrollYPedido = Scrollbar(self.frameListaPedido, orient=VERTICAL)
+        self.listaPedido = Listbox(self.frameListaPedido, yscrollcommand=scrollYPedido.set, height=6, width=50, font=self._font2, selectmode=SINGLE)
+        self.listaPedido.bind("<<ListboxSelect>>", self.onListSelectPedido)
+        self.listaPedido.pack(side=LEFT,fill=X,expand=True, pady=5)
+        self.listaPedido.select_set(0)
+        scrollYPedido["command"] = self.listaPedido.yview
+        scrollYPedido.pack(side=LEFT,fill=Y, pady=5)
 
+        #Botões
+        self.frameBotoesPedido = Frame(framePedido, bg=self._cinza)
+        self.frameBotoesPedido.pack(side=BOTTOM, fill=X)
+        self.btnAdicionarPedido = Button(self.frameBotoesPedido, width=12, text="Finaliza Pedido", command=self.btnSalvarPedido)
+        self.btnAdicionarPedido.pack(side=RIGHT, padx=10)
+        self.btnLimparPedido = Button(self.frameBotoesPedido, width=10, text="Limpar", command=self.limparPedido)
+        self.btnLimparPedido.pack(side=RIGHT, padx=10)
+
+        notebook.add(framePedido, text=" Pedido ")
+        
         ################################################################################################
         #>>>>>> Aba 2 Cliente #################################### FUNCIONANDO #########################
         ################################################################################################
@@ -495,16 +520,69 @@ class FramePrincipal(Frame):
     def onListSelectBusca(self, arg):
         pos = self.listaBusca.curselection()
         self.clienteSelecionado = self.listaBusca.get(pos)
+        self.btnAdidcionarPedidoCliente["state"] = ACTIVE
         print("Item: %s" %self.clienteSelecionado)
 
     #---------------------------------------------
     def botaoAdicionarPizzaPedido(self):
-        print("add")
+        print("Adicionar ao Pedido")
+        sabor = self.comboPizzaPedido.get()
+        idPizza = sabor[0]
+        meia = self.meia.get()
+        pizza = mp.lista_pizza_por_id(idPizza)
+        if meia:
+            txtMeia = "Meia "
+            valor = pizza[2]/2
+        else:
+            valor = pizza[2]
+            txtMeia = "Inteira "
+        
+        idItem = mp.insere_item_pedido(self.pedidoAtivo, idPizza, 1, meia, str(valor))
+        if idItem:
+            print("Item inserido com sucesso!!!")
+            self.pedidoAtivoValor += valor 
+            self.listaPedido.delete(END)
+            self.listaPedido.insert(END, txtMeia + sabor[4:] + " - Valor item R$:" + str(valor))
+            self.listaPedido.insert(END, "-------------------> Valor TOTAL: %.2f" %self.pedidoAtivoValor)
+        else:
+            print("Deu Ruim ao inserir")
 
     #---------------------------------------------
     def meiaSelect(self):
         print("meiaSelect")
 
+    #---------------------------------------------
+    def onListSelectPedido(self):
+        print("pedido")
+
+    #---------------------------------------------
+    def limparPedido(self):
+        print("limpa")
+        self.pedidoAtivo = None
+        self.btnAdidcionarPedidoCliente["state"] = DISABLED
+        self.btnAdicionarPizzaPedido["state"]= DISABLED
+        self.ckbMeiaPizza["state"]= DISABLED
+        self.comboPizzaPedido["state"]= DISABLED
+        self.pedidoAtivoValor = 0
+        self.listaPedido.delete(0, END)
+    #---------------------------------------------
+    def btnSalvarPedido(self):
+        print("adicionaPedido")
+    
+    #---------------------------------------------
+    def criaPedido(self):
+        self.pedidoAtivo = mp.insere_pedido(self.clienteSelecionado[0])
+        self.pedidoAtivoValor = 0
+        if self.pedidoAtivo:
+            print("Pedido Criado")
+            txt="Pedido n: %s    Cliente: %s" %(self.pedidoAtivo, str(self.clienteSelecionado))
+            self.listaPedido.insert(END, txt)
+            self.listaPedido.insert(END, "")
+            self.btnAdicionarPizzaPedido["state"]= ACTIVE
+            self.ckbMeiaPizza["state"]= ACTIVE
+            self.comboPizzaPedido["state"]= ACTIVE
+        else:
+            self.exibirMensagem("Deu ruim")
 
 app = FramePrincipal()
 app.mainloop()
