@@ -42,8 +42,9 @@ class Entrar(Frame):
         senha = self.entry2.get()
         if (usuario == 'admin' and  senha == 'admin'):
             box.showinfo('Sucesso','Login efetuado com sucesso! ')
-            time.sleep(2)
+            time.sleep(1)
             app.destroy()
+            import GUI_new
         else:
             box.showinfo('Falha ao Logar','Tente Novamente')
 app = Tk()

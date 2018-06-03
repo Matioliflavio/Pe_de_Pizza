@@ -35,12 +35,13 @@ CONSTRAINT fk_tb_cliente_id_cliente FOREIGN KEY (id_cliente) REFERENCES tb_clien
 );
 
 CREATE TABLE tb_item_pedido(
+id_item         SERIAL NOT NULL,
 id_pedido       INTEGER NOT NULL, 
 id_pizza        INTEGER NOT NULL,
 quantidade      INTEGER, 
 fg_meia         INTEGER,
 valor           NUMERIC(5,2),
-CONSTRAINT pk_item_pedido PRIMARY KEY (id_pedido, id_pizza),
+CONSTRAINT pk_item_pedido PRIMARY KEY (id_pedido, id_pizza, id_item),
 CONSTRAINT fk_tb_pedido_id_pedido FOREIGN KEY (id_pedido) REFERENCES tb_pedido(id_pedido),
 CONSTRAINT fk_tb_pizzas_id_pizza FOREIGN KEY (id_pizza) REFERENCES tb_pizzas(id_pizza)            
 );

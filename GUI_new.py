@@ -39,7 +39,7 @@ class FramePrincipal(Frame):
         #------------------------
         super().__init__()
         self.master.iconbitmap("pedepizza.ico")
-        self.centralizar(600,500)
+        self.centralizar(600,550)
         self.master.title("Pé de Pizza")
         self.master.resizable(False, False)
         self.master["bg"] = self._cinza
@@ -50,7 +50,7 @@ class FramePrincipal(Frame):
         notebook = ttk.Notebook(self.master)
 
         ################################################################################################
-        #------ Aba 1 Pedido ------
+        #------ Aba 1 Pedido  #################################### FUNCIONANDO #########################
         ################################################################################################
         framePedido = Frame(notebook, bg=self._cinza)
 
@@ -239,40 +239,18 @@ class FramePrincipal(Frame):
 
         self.addTitulo(frameDeletar, " >> Deletar << ", self._branco, self._font4)
 
-        def listarClientes():
-            self.listaDeletar.delete(0, END)
-            self.tipoDeletar = "C" 
-            clientes = mp.lista_clientes()
-            for cliente in clientes:
-                cl = str(cliente[0]) + " - " + cliente[1]
-                self.listaDeletar.insert(END, cl)
-        
-        def listarPizzas():
-            self.listaDeletar.delete(0, END)
-            self.tipoDeletar = "P"
-            pizzas = mp.lista_pizzas()
-            for pizza in pizzas:
-                p= str(pizza[0]) + " - " + pizza[1]
-                self.listaDeletar.insert(END, p)
-        
-        def limparLista():
-            self.tipoDeletar = ""
-            self.listaDeletar.delete(0, END)
-
-        frameBotoesSelecDeletar = Frame(frameDeletar, bg=self._cinza)
-        frameBotoesSelecDeletar.pack(side=TOP, fill=BOTH)
-        self.btnListarClientes = Button(frameBotoesSelecDeletar, width=10, text="Listar Clientes", command=listarClientes)
+        self.frameBotoesSelecDeletar = Frame(frameDeletar, bg=self._cinza)
+        self.frameBotoesSelecDeletar.pack(side=TOP, fill=BOTH)
+        self.btnListarClientes = Button(self.frameBotoesSelecDeletar, width=10, text="Listar Clientes", command=self.listarClientes)
         self.btnListarClientes.pack(side=LEFT, padx=10, pady=10)
-        self.btnListarPizzas = Button(frameBotoesSelecDeletar, width=10, text="Listar Pizzas", command=listarPizzas)
+        self.btnListarPizzas = Button(self.frameBotoesSelecDeletar, width=10, text="Listar Pizzas", command=self.listarPizzas)
         self.btnListarPizzas.pack(side=LEFT, padx=10, pady=10)
         
+        self.frameListarDeletar = Frame(frameDeletar , bg=self._cinza, height=100)
+        self.frameListarDeletar.pack(side=TOP,fill=X)
 
-        
-        frameListarDeletar = Frame(frameDeletar , bg=self._cinza, height=100)
-        frameListarDeletar.pack(side=TOP,fill=X)
-
-        scrollY = Scrollbar(frameListarDeletar, orient=VERTICAL)
-        self.listaDeletar = Listbox(frameListarDeletar, yscrollcommand=scrollY.set, height=10, font=self._font2, selectmode=SINGLE)
+        scrollY = Scrollbar(self.frameListarDeletar, orient=VERTICAL)
+        self.listaDeletar = Listbox(self.frameListarDeletar, yscrollcommand=scrollY.set, height=10, font=self._font2, selectmode=SINGLE)
 
         self.listaDeletar.bind("<<ListboxSelect>>", self.onListSelect)
         self.listaDeletar.pack(side=LEFT,fill=X,expand=True)
@@ -281,13 +259,12 @@ class FramePrincipal(Frame):
         scrollY["command"] = self.listaDeletar.yview
         scrollY.pack(side=LEFT,fill=Y)
 
-        frameBotoesDeletar = Frame(frameDeletar, bg=self._cinza)
-        frameBotoesDeletar.pack(side=BOTTOM, fill=BOTH)
-        self.btnDeletarSelecionado = Button(frameBotoesDeletar, width=10, text="Deletar", command=self.deletarSelecionado)
+        self.frameBotoesDeletar = Frame(frameDeletar, bg=self._cinza)
+        self.frameBotoesDeletar.pack(side=BOTTOM, fill=BOTH)
+        self.btnDeletarSelecionado = Button(self.frameBotoesDeletar, width=10, text="Deletar", command=self.deletarSelecionado)
         self.btnDeletarSelecionado.pack(side=RIGHT, padx=10)
-        self.btnListarPizzas = Button(frameBotoesDeletar, width=10, text="Limpar Lista", command=limparLista)
+        self.btnListarPizzas = Button(self.frameBotoesDeletar, width=10, text="Limpar Lista", command=self.limparLista)
         self.btnListarPizzas.pack(side=RIGHT, padx=10)
-    
         
         notebook.add(frameDeletar, text=" Deletar ")
 
@@ -387,11 +364,22 @@ class FramePrincipal(Frame):
 
         notebook.add(frameInfo, text=" Info ")
 
-
         #---------------END ABAS-----------------
         notebook.pack(side=TOP, fill=X)
 
-    #---------------------------------------------------------------------
+        ################################################################################################
+        ################################################################################################
+        ################################################################################################
+        ################################################################################################
+
+
+
+
+
+
+    # ------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES GERAIS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # ------------------------------------------------------------------------------------------ 
     def centralizar(self, larg, alt):
         px=int((self.master.winfo_screenwidth()-larg)/2)
         py=int((self.master.winfo_screenheight()-alt)/2)
@@ -403,110 +391,14 @@ class FramePrincipal(Frame):
         self.frame.pack(side=TOP,fill=X) 
         self.texto = Label(self.frame,bg=corFundo, font=fonte, text=titulo)
         self.texto.pack(side=justificado) 
-
-    #---------------------------------------------------------------------
-    def adicionarCliente(self):
-        print("adicionando")
-        nome = str(self.nomeCliente.get()).upper()
-        telefone = str(self.telefoneCliente.get())
-        cep = str(self.cepCliente.get())
-        rua = str(self.ruaClienteEntry.get())#.upper
-        numero = str(self.numeroClienteEntry.get())
-        complemento = str(self.complementoClienteEntry.get())#.upper()
-        bairro = str(self.bairroClienteEntry.get())#.upper()
-        cid=None
-        cid = mp.insere_cliente(nome, telefone, cep, rua, numero, complemento, bairro)
-        if cid:
-            self.exibirMensagem("%s, ID: %s adicionado " %(nome, cid))
-            self.limparCliente()
-        else:
-            self.exibirMensagem("Falha ao adicionar")    
-
-    #---------------------------------------------------------------------
-    def limparCliente(self):
-        self.nomeClienteEntry.set("")
-        self.telefoneClienteEntry.set("")
-        self.cepClienteEntry.set("")
-        self.ruaClienteEntry.set("")
-        self.complementoClienteEntry.set("")                
-        self.numeroClienteEntry.set("")
-        self.bairroClienteEntry.set("")
-        print("limpar")
-        
+    
     #---------------------------------------------------------------------    
-    def botaoProcuraCaminho(self):
-        caminho = filedialog.askdirectory()
-        self.exportaCaminhoEntry.set(caminho)
-        print(caminho)
-
-    #---------------------------------------------------------------------    
-    def importarDados(self):
-        print("importar")
-        url = str(self.importaUrlEntry.get())
-        self.resultadoImport = imp.importa_dados(url)
-        for item in self.resultadoImport:
-            self.listaImport.insert(END, str(item).replace("\'", "").replace("{", "").replace("}", ""))
-        self.exibirMensagem("Importação Concluída!")
-        self.importaUrlEntry.set("")
-
-    #---------------------------------------------------------------------    
-    def limparImportar(self):
-        self.importaUrlEntry.set("")
-        self.listaImport.delete(0, END)
-
-    #---------------------------------------------------------------------    
-    def exportarDados(self):
-        print("exportar")
-        caminho = str(self.exportaCaminhoEntry.get())
-        ed.cria_backup_json(caminho)
-        self.exibirMensagem("Exportação Concluída!")
-
-    #---------------------------------------------------------------------    
-    def limparExportar(self):
-        self.exportaCaminhoEntry.set("")
-
-    #---------------------------------------------------------------------
     def exibirMensagem(self, msg):
         mbox.showinfo("Atenção", msg)
 
-    #---------------------------------------------------------------------
-    def adicionarSabor(self):
-        sabor = str(self.saborPizzasEntry.get()).upper()
-        valor = str(self.valorPizzasEntry.get()).replace(",", ".")
-        pid = mp.insere_pizza(sabor, valor)
-        if pid:
-            self.exibirMensagem("Inserida com Sucesso")
-            self.limparSabor()
-        else:
-            self.exibirMensagem("Erro ao Inserir")
-
-    #---------------------------------------------------------------------
-    def limparSabor(self):
-        self.saborPizzasEntry.set("")
-        self.valorPizzasEntry.set("")
-        print("limpar")
-
-    # --------------------------------------------
-    def onListSelect(self, arg):
-        pos = self.listaDeletar.curselection()
-        self.itemDeletar = self.listaDeletar.get(pos)
-        print("Item: %s" %self.itemDeletar)
-        
-    # --------------------------------------------
-    def deletarSelecionado(self):
-        id= self.itemDeletar[0]
-        print(id)
-        if self.tipoDeletar == "P":
-            self.exibirMensagem("Deletando %s" %self.itemDeletar)
-            mp.deleta_pizza_por_id(id)
-        elif self.tipoDeletar == "C":
-            mp.deleta_cliente_por_id(id)
-            self.exibirMensagem("Deletando %s" %self.itemDeletar)
-        else:
-            self.exibirMensagem("Selecione um item para deletar!")
-            print("nada selecionado")
-
-    #---------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES PEDIDO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # ------------------------------------------------------------------------------------------   
     def botaoBuscaCliente(self):
         print("Buscando")
         self.listaBusca.delete(0, END)
@@ -516,14 +408,14 @@ class FramePrincipal(Frame):
             cl = str(cliente[0]) + " - " + cliente[1]
             self.listaBusca.insert(END, cl)
 
-    # --------------------------------------------
+    # ------------------------------------------------------------------------------------------
     def onListSelectBusca(self, arg):
         pos = self.listaBusca.curselection()
         self.clienteSelecionado = self.listaBusca.get(pos)
         self.btnAdidcionarPedidoCliente["state"] = ACTIVE
         print("Item: %s" %self.clienteSelecionado)
 
-    #---------------------------------------------
+    # ------------------------------------------------------------------------------------------
     def botaoAdicionarPizzaPedido(self):
         print("Adicionar ao Pedido")
         sabor = self.comboPizzaPedido.get()
@@ -543,21 +435,21 @@ class FramePrincipal(Frame):
             self.pedidoAtivoValor += valor 
             self.listaPedido.delete(END)
             self.listaPedido.insert(END, txtMeia + sabor[4:] + " - Valor item R$:" + str(valor))
-            self.listaPedido.insert(END, "-------------------> Valor TOTAL: %.2f" %self.pedidoAtivoValor)
+            self.listaPedido.insert(END, "-------------------> TOTAL Pedido R$:%.2f <-------------------" %self.pedidoAtivoValor)
         else:
             print("Deu Ruim ao inserir")
 
-    #---------------------------------------------
+    # ------------------------------------------------------------------------------------------
     def meiaSelect(self):
-        print("meiaSelect")
+        print("Meia Selecionada")
 
-    #---------------------------------------------
+    # ------------------------------------------------------------------------------------------
     def onListSelectPedido(self):
         print("pedido")
 
-    #---------------------------------------------
+    # ------------------------------------------------------------------------------------------
     def limparPedido(self):
-        print("limpa")
+        print("Limpa Pedido")
         self.pedidoAtivo = None
         self.btnAdidcionarPedidoCliente["state"] = DISABLED
         self.btnAdicionarPizzaPedido["state"]= DISABLED
@@ -565,11 +457,20 @@ class FramePrincipal(Frame):
         self.comboPizzaPedido["state"]= DISABLED
         self.pedidoAtivoValor = 0
         self.listaPedido.delete(0, END)
-    #---------------------------------------------
+
+    # ------------------------------------------------------------------------------------------
     def btnSalvarPedido(self):
-        print("adicionaPedido")
-    
-    #---------------------------------------------
+        print("Adiciona Pedido")
+        txt = """   
+        PEDIDO No: %s
+        CLIENTE: %s
+        VALOR R$: %.2f
+        """ %(self.pedidoAtivo, self.clienteSelecionado, self.pedidoAtivoValor)
+        result = mp.finaliza_pedido(self.clienteSelecionado[0], self.pedidoAtivoValor)
+        if result: self.exibirMensagem(txt)
+        self.limparPedido()
+        
+    # ------------------------------------------------------------------------------------------
     def criaPedido(self):
         self.pedidoAtivo = mp.insere_pedido(self.clienteSelecionado[0])
         self.pedidoAtivoValor = 0
@@ -583,6 +484,155 @@ class FramePrincipal(Frame):
             self.comboPizzaPedido["state"]= ACTIVE
         else:
             self.exibirMensagem("Deu ruim")
+    
+    # -------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES CLIENTE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # -------------------------------------------------------------------------------------------
+    def adicionarCliente(self):
+        print("adicionando")
+        nome = str(self.nomeCliente.get()).upper()
+        telefone = str(self.telefoneCliente.get())
+        cep = str(self.cepCliente.get())
+        rua = str(self.ruaClienteEntry.get())#.upper
+        numero = str(self.numeroClienteEntry.get())
+        complemento = str(self.complementoClienteEntry.get())#.upper()
+        bairro = str(self.bairroClienteEntry.get())#.upper()
+        cid=None
+        cid = mp.insere_cliente(nome, telefone, cep, rua, numero, complemento, bairro)
+        if cid:
+            self.exibirMensagem("%s, ID: %s adicionado " %(nome, cid))
+            self.limparCliente()
+            self.buscaCliente()
+        else:
+            self.exibirMensagem("Falha ao adicionar")    
+
+    # ------------------------------------------------------------------------------------------
+    def limparCliente(self):
+        self.nomeClienteEntry.set("")
+        self.telefoneClienteEntry.set("")
+        self.cepClienteEntry.set("")
+        self.ruaClienteEntry.set("")
+        self.complementoClienteEntry.set("")                
+        self.numeroClienteEntry.set("")
+        self.bairroClienteEntry.set("")
+        print("limpar")
+
+    # ------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES PIZZAS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # ------------------------------------------------------------------------------------------
+    def adicionarSabor(self):
+        sabor = str(self.saborPizzasEntry.get()).upper()
+        valor = str(self.valorPizzasEntry.get()).replace(",", ".")
+        pid = mp.insere_pizza(sabor, valor)
+        if pid:
+            self.exibirMensagem("Inserida com Sucesso")
+            self.limparSabor()
+        else:
+            self.exibirMensagem("Erro ao Inserir")
+
+    # ------------------------------------------------------------------------------------------
+    def limparSabor(self):
+        self.saborPizzasEntry.set("")
+        self.valorPizzasEntry.set("")
+        print("limpar")
+
+    # -------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES DELETAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # -------------------------------------------------------------------------------------------
+    
+    def deletarSelecionado(self):
+        id= self.itemDeletar[0]
+        print(id)
+        if self.tipoDeletar == "P":
+            delPizza = mp.deleta_pizza_por_id(id)
+            if delPizza: self.exibirMensagem("Deletando %s" %self.itemDeletar)
+            else: self.exibirMensagem("Erro ao Deletar %s" %self.itemDeletar)
+        elif self.tipoDeletar == "C":
+            delCliente = mp.deleta_cliente_por_id(id)
+            if delCliente: self.exibirMensagem("Deletando %s" %self.itemDeletar)
+            else: self.exibirMensagem("Erro ao Deletar %s" %self.itemDeletar)
+        else:
+            self.exibirMensagem("Selecione um item para deletar!")
+            print("nada selecionado")
+        self.limparLista()
+
+    # ------------------------------------------------------------------------------------------
+    def listarClientes(self):
+        self.listaDeletar.delete(0, END)
+        self.tipoDeletar = "C" 
+        clientes = mp.lista_clientes()
+        for cliente in clientes:
+            cl = str(cliente[0]) + " - " + cliente[1]
+            self.listaDeletar.insert(END, cl)
+    # ------------------------------------------------------------------------------------------    
+    def listarPizzas(self):
+        self.listaDeletar.delete(0, END)
+        self.tipoDeletar = "P"
+        pizzas = mp.lista_pizzas()
+        for pizza in pizzas:
+            p= str(pizza[0]) + " - " + pizza[1]
+            self.listaDeletar.insert(END, p)
+    # ------------------------------------------------------------------------------------------    
+    def limparLista(self):
+        self.tipoDeletar = ""
+        self.listaDeletar.delete(0, END)
+    
+    # ------------------------------------------------------------------------------------------ 
+    def onListSelect(self, arg):
+        pos = self.listaDeletar.curselection()
+        self.itemDeletar = self.listaDeletar.get(pos)
+        print("Item: %s" %self.itemDeletar)
+
+
+    # -----------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES FATURAMENTO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # -----------------------------------------------------------------------------------------------
+
+
+    # --------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES IMPORTAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # --------------------------------------------------------------------------------------------
+    def botaoProcuraCaminho(self):
+        caminho = filedialog.askdirectory()
+        self.exportaCaminhoEntry.set(caminho)
+        print(caminho)
+
+    # --------------------------------------------------------------------------------------------    
+    def importarDados(self):
+        print("importar")
+        self.listaImport.insert(END, "Aguarde....")
+        url = str(self.importaUrlEntry.get())
+        self.listaImport.insert(END, "Carregando Dados....")
+        self.resultadoImport = imp.importa_dados(url)
+        self.listaImport.delete(0, END)
+        for item in self.resultadoImport:
+            self.listaImport.insert(END, str(item).replace("\'", "").replace("{", "").replace("}", ""))
+        self.exibirMensagem("Importação Concluída!")
+        self.importaUrlEntry.set("")
+
+    # --------------------------------------------------------------------------------------------    
+    def limparImportar(self):
+        self.importaUrlEntry.set("")
+        self.listaImport.delete(0, END)
+
+    # --------------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES EXPORTAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # --------------------------------------------------------------------------------------------
+    def exportarDados(self):
+        print("exportar")
+        caminho = str(self.exportaCaminhoEntry.get())
+        ed.cria_backup_json(caminho)
+        self.exibirMensagem("Exportação Concluída!")
+
+    #---------------------------------------------------------------------    
+    def limparExportar(self):
+        self.exportaCaminhoEntry.set("")
+
+
+    # -----------------------------------------------------------------------------------------
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES DADOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # -----------------------------------------------------------------------------------------
+
 
 app = FramePrincipal()
 app.mainloop()
