@@ -39,7 +39,7 @@ class FramePrincipal(Frame):
         #------------------------
         super().__init__()
         self.master.iconbitmap("pedepizza.ico")
-        self.centralizar(600,550)
+        self.centralizar(600,500)
         self.master.title("Pé de Pizza")
         self.master.resizable(False, False)
         self.master["bg"] = self._cinza
@@ -88,6 +88,7 @@ class FramePrincipal(Frame):
         self.addTitulo(framePedido, "Pizza:", self._cinza, self._font2, LEFT)
         self.framePizzaPedido = Frame(framePedido, bg=self._cinza)
         self.framePizzaPedido.pack(side=TOP, fill=X)
+
         self.pizzas = mp.lista_pizzas()
         self.pz= []
         for pizza in self.pizzas:
@@ -419,7 +420,7 @@ class FramePrincipal(Frame):
     def botaoAdicionarPizzaPedido(self):
         print("Adicionar ao Pedido")
         sabor = self.comboPizzaPedido.get()
-        idPizza = sabor[0]
+        idPizza = sabor[0] 
         meia = self.meia.get()
         pizza = mp.lista_pizza_por_id(idPizza)
         if meia:
@@ -502,9 +503,9 @@ class FramePrincipal(Frame):
         if cid:
             self.exibirMensagem("%s, ID: %s adicionado " %(nome, cid))
             self.limparCliente()
-            self.buscaCliente()
+            self.botaoBuscaCliente()
         else:
-            self.exibirMensagem("Falha ao adicionar")    
+            self.exibirMensagem("Falha ao adicionar")   
 
     # ------------------------------------------------------------------------------------------
     def limparCliente(self):
@@ -525,7 +526,7 @@ class FramePrincipal(Frame):
         valor = str(self.valorPizzasEntry.get()).replace(",", ".")
         pid = mp.insere_pizza(sabor, valor)
         if pid:
-            self.exibirMensagem("Inserida com Sucesso")
+            self.exibirMensagem("Inserida com Sucesso \nFavor Reiniciar o programa! ")
             self.limparSabor()
         else:
             self.exibirMensagem("Erro ao Inserir")
@@ -541,14 +542,14 @@ class FramePrincipal(Frame):
     # -------------------------------------------------------------------------------------------
     
     def deletarSelecionado(self):
-        id= self.itemDeletar[0]
+        id= self.itemDeletar[:2].replace(" ", "")
         print(id)
         if self.tipoDeletar == "P":
-            delPizza = mp.deleta_pizza_por_id(id)
+            delPizza = mp.deleta_pizza_por_id(str(id))
             if delPizza: self.exibirMensagem("Deletando %s" %self.itemDeletar)
             else: self.exibirMensagem("Erro ao Deletar %s" %self.itemDeletar)
         elif self.tipoDeletar == "C":
-            delCliente = mp.deleta_cliente_por_id(id)
+            delCliente = mp.deleta_cliente_por_id(str(id))
             if delCliente: self.exibirMensagem("Deletando %s" %self.itemDeletar)
             else: self.exibirMensagem("Erro ao Deletar %s" %self.itemDeletar)
         else:
@@ -609,6 +610,7 @@ class FramePrincipal(Frame):
             self.listaImport.insert(END, str(item).replace("\'", "").replace("{", "").replace("}", ""))
         self.exibirMensagem("Importação Concluída!")
         self.importaUrlEntry.set("")
+        self.buscaCliente()
 
     # --------------------------------------------------------------------------------------------    
     def limparImportar(self):

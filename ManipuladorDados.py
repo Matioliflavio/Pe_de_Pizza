@@ -187,12 +187,12 @@ def busca_clientes(parcial):
     #////////////////////////////////
 
 def deleta_cliente_por_id(id):
-    sql = "DELETE FROM tb_clientes WHERE id_cliente = %s;"
+    sql = "DELETE FROM tb_clientes WHERE id_cliente = %(like)s;"
     log("Buscando cliente id: %s" %str(id))
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (str(id))))
+        cur.execute(sql, dict(like= id))
         log("Item deletado com sucesso")
         desconecta(con)
         return 1
@@ -201,12 +201,12 @@ def deleta_cliente_por_id(id):
         return 0
 
 def deleta_pizza_por_id(id):
-    sql = "DELETE FROM tb_pizzas WHERE id_pizza = %s;"
+    sql = "DELETE FROM tb_pizzas WHERE id_pizza = %(like)s;"
     log("Buscando pizza id: %s" %str(id))
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (str(id))))
+        cur.execute(sql, dict(like= id))
         log("Item deletado com sucesso")
         desconecta(con)
         return 1
