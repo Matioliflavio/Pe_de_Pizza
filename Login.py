@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as box
 import time
+import GUI_new as gui
 
 class Entrar(Frame):
     
@@ -44,7 +45,7 @@ class Entrar(Frame):
             box.showinfo('Sucesso','Login efetuado com sucesso! ')
             time.sleep(1)
             app.destroy()
-            import GUI_new
+            gui.main()
         else:
             box.showinfo('Falha ao Logar','Tente Novamente')
 app = Tk()
