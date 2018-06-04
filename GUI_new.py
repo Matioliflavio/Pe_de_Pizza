@@ -636,5 +636,6 @@ class FramePrincipal(Frame):
     # -----------------------------------------------------------------------------------------
 
 
-app = FramePrincipal()
-app.mainloop()
+def main():
+    app = FramePrincipal()
+    app.mainloop()
