@@ -25,13 +25,14 @@ def desconecta(con):
 #////////////////////////////////
 
 
-def insere_cliente(nome, telefone, cep=None, rua=None, numero=None, complemento=None, bairro= None):
-    sql = "INSERT INTO tb_clientes(nome, telefone, cep, rua, numero, complemento, bairro ) VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
+def insere_cliente(nome, telefone, cep=None, rua=None, numero=None, complemento=None, bairro= None, flag=1):
+    sql = "INSERT INTO tb_clientes(nome, telefone, cep, rua, numero, complemento, bairro, fg_ativo ) VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id_cliente;"
     id_cliente = None
+    fgAtivo = 1
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (nome, telefone, cep, rua, numero, complemento, bairro)))
+        cur.execute(cur.mogrify(sql, (nome, telefone, cep, rua, numero, complemento, bairro, fgAtivo)))
         id_cliente = cur.fetchone()[0]
         log("Cliente id: " + str(id_cliente) + " inserido com sucesso!")
         desconecta(con)
@@ -40,14 +41,15 @@ def insere_cliente(nome, telefone, cep=None, rua=None, numero=None, complemento=
         return 0 
     return id_cliente
 
-def insere_pizza(sabor, valor):
-    sql = "INSERT INTO tb_pizzas(sabor, valor) VALUES(%s, %s) RETURNING id_pizza;"
+def insere_pizza(sabor, valor, flag):
+    sql = "INSERT INTO tb_pizzas(sabor, valor, fg_ativo) VALUES(%s, %s, %s) RETURNING id_pizza;"
     id_pizza = None
+    fgAtivo = 1
     log("Inserindo Pizza " + sabor)
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (sabor, valor)))
+        cur.execute(cur.mogrify(sql, (sabor, valor, fgAtivo)))
         id_pizza = cur.fetchone()[0]
         log("Pizza id: " + str(id_pizza) + " inserida com sucesso")
         desconecta(con)
@@ -108,7 +110,7 @@ def finaliza_pedido(id_pedido, valor):
 
 
 def lista_clientes():
-    sql = "SELECT * FROM tb_clientes;"
+    sql = "SELECT * FROM tb_clientes WHERE fg_ativo = 1;"
     log("Buscando Todos os clientes")
     clientes = None
     try:
@@ -123,7 +125,7 @@ def lista_clientes():
     return clientes #mesmo com erro retorna None
     
 def lista_pizzas():
-    sql = "SELECT * FROM tb_pizzas;"
+    sql = "SELECT * FROM tb_pizzas WHERE fg_ativo = 1;"
     log("Buscando todas os pizzas")
     pizzas = None
     try:
@@ -138,7 +140,7 @@ def lista_pizzas():
     return pizzas #mesmo com erro retorna None
 
 def lista_cliente_por_id(id):
-    sql = "SELECT * FROM tb_clientes WHERE id_cliente = %s;"
+    sql = "SELECT * FROM tb_clientes WHERE id_cliente = %s AND fg_ativo = 1;"
     log("Buscando cliente id: " %str(id))
     cliente = None
     try:
@@ -153,8 +155,8 @@ def lista_cliente_por_id(id):
     return cliente #mesmo com erro retorna None
 
 def lista_pizza_por_id(id):
-    sql = "SELECT * FROM tb_pizzas WHERE id_pizza = %s;"
-    log("Buscando pizza id: %s" %str(id))
+    sql = "SELECT * FROM tb_pizzas WHERE id_pizza = %s AND fg_ativo = 1;"
+    log("Buscando pizza id: %s" %str(id)) 
     pizza = None
     try:
         con = conecta()
@@ -168,7 +170,7 @@ def lista_pizza_por_id(id):
     return pizza #mesmo com erro retorna None
 
 def busca_clientes(parcial):
-    sql = "SELECT * FROM tb_clientes WHERE nome LIKE %(like)s;"
+    sql = "SELECT * FROM tb_clientes WHERE nome LIKE %(like)s AND fg_ativo = 1;"
     log("Buscando Todos os clientes")
     clientes = None
     try:
@@ -182,12 +184,12 @@ def busca_clientes(parcial):
         log(erro)
     return clientes #mesmo com erro retorna None
 
-    #////////////////////////////////
-    #//////////  DELETES  ///////////
-    #////////////////////////////////
+    #//////////////////////////////////
+    #//////////  "DELETES"  ///////////
+    #//////////////////////////////////
 
 def deleta_cliente_por_id(id):
-    sql = "DELETE FROM tb_clientes WHERE id_cliente = %(like)s;"
+    sql = "UPDATE tb_clientes SET fg_ativo = 0 WHERE id_cliente = %(like)s;"
     log("Buscando cliente id: %s" %str(id))
     try:
         con = conecta()
@@ -201,7 +203,7 @@ def deleta_cliente_por_id(id):
         return 0
 
 def deleta_pizza_por_id(id):
-    sql = "DELETE FROM tb_pizzas WHERE id_pizza = %(like)s;"
+    sql = "UPDATE tb_pizzas SET fg_ativo = 0 WHERE id_pizza = %(like)s;"
     log("Buscando pizza id: %s" %str(id))
     try:
         con = conecta()

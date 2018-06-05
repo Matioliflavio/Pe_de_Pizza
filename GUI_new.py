@@ -630,12 +630,15 @@ class FramePrincipal(Frame):
     def limparExportar(self):
         self.exportaCaminhoEntry.set("")
 
-
     # -----------------------------------------------------------------------------------------
     #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES DADOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     # -----------------------------------------------------------------------------------------
 
 
+    ## -- Final das funções da GUI --
+
 def main():
     app = FramePrincipal()
     app.mainloop()
+
+main()

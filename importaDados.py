@@ -30,14 +30,15 @@ def importa_dados(url):
         cliente["rua"],
         cliente["numero"],
         cliente["complemento"],
-        cliente["bairro"])
+        cliente["bairro"],
+        cliente["fg_ativo"])
         result.append(cliente)
 
     log("Clientes inseridos com sucesso!")
     result.append("PIZZAS: ")
     for pizza in jsondata["pizzas"]:
         log("Inserindo pizza id: " + str(pizza["id_pizza"]))
-        mp.insere_pizza(pizza["sabor"], pizza["valor"])
+        mp.insere_pizza(pizza["sabor"], pizza["valor"], pizza["fg_ativo"])
         result.append(pizza)
 
     log("Pizzas inseridas com sucesso!")

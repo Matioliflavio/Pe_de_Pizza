@@ -20,6 +20,7 @@ def cria_backup_json(caminho):
         pizza["id_pizza"] = item[0]
         pizza["sabor"] = item[1]
         pizza["valor"] = float(item[2])
+        pizza["fg_ativo"] = int(item[3])
         pizzas.append(pizza)
 
     data["pizzas"] = pizzas
@@ -37,6 +38,7 @@ def cria_backup_json(caminho):
         cliente["numero"] = item[5]
         cliente["complemento"] = item[6]
         cliente["bairro"] = item[7]
+        cliente["fg_ativo"] = iten[8]
         clientes.append(cliente) 
 
     data["clientes"] = clientes

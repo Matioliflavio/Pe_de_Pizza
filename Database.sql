@@ -15,6 +15,7 @@ rua             VARCHAR(40),
 numero          VARCHAR(6),
 complemento     VARCHAR(10),
 bairro          VARCHAR(20),
+fg_ativo        INTEGER NOT NULL,
 CONSTRAINT pk_id_cliente PRIMARY KEY (id_cliente)
 );
 
@@ -22,6 +23,7 @@ CREATE TABLE tb_pizzas(
 id_pizza    SERIAL NOT NULL,
 sabor       VARCHAR(20),
 valor       NUMERIC(5,2),
+fg_ativo    INTEGER NOT NULL,
 CONSTRAINT pk_id_pizza PRIMARY KEY (id_pizza)
 );
 

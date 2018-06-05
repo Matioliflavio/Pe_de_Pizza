@@ -8,7 +8,8 @@
             "rua" : "DAS PITANGUEIRAS",
             "numero" : "171",
             "complemento" : null,
-            "bairro" : "JARDINS"
+            "bairro" : "JARDINS",
+            "fg_ativo" : 1
         },
 
         {
@@ -19,7 +20,8 @@
             "rua" : "DAS AMOREIRAS",
             "numero" : "172",
             "complemento" : "AP12",
-            "bairro" : "SUMARE"
+            "bairro" : "SUMARE",
+            "fg_ativo" : 1
         },
 
         {
@@ -30,7 +32,8 @@
             "rua" : "DAS AMOREIRAS",
             "numero" : "172",
             "complemento" : "AP22",
-            "bairro" : "SUMARE"
+            "bairro" : "SUMARE",
+            "fg_ativo" : 1
         },
 
         {
@@ -41,7 +44,8 @@
             "rua" : "DAS OLIVEIRAS",
             "numero" : "69",
             "complemento" : null,
-            "bairro" : "ALAGADOS"
+            "bairro" : "ALAGADOS",
+            "fg_ativo" : 1
         },
 
         {
@@ -52,7 +56,8 @@
             "rua" : "DAS OLIVEIRAS",
             "numero" : "169",
             "complemento" : null,
-            "bairro" : "ALAGADOS"
+            "bairro" : "ALAGADOS",
+            "fg_ativo" : 1
         },
 
         {
@@ -63,7 +68,8 @@
             "rua" : "ROCHOSA",
             "numero" : "300",
             "complemento" : null,
-            "bairro" : "SPRINGFILD"
+            "bairro" : "SPRINGFILD",
+            "fg_ativo" : 1
         },
 
         {
@@ -74,7 +80,8 @@
             "rua" : "ESPLANADA",
             "numero" : "255",
             "complemento" : null,
-            "bairro" : "PIRATINGA"
+            "bairro" : "PIRATINGA",
+            "fg_ativo" : 1
         },
 
         {
@@ -85,7 +92,8 @@
             "rua" : "AV EUROPA",
             "numero" : "555",
             "complemento" : "AP 22",
-            "bairro" : "JARDINS"
+            "bairro" : "JARDINS",
+            "fg_ativo" : 1
         },
 
         {
@@ -96,7 +104,8 @@
             "rua" : "AV CHUCRI ZIDAN",
             "numero" : "555",
             "complemento" : "5O ANDAR",
-            "bairro" : "BERRINI"
+            "bairro" : "BERRINI",
+            "fg_ativo" : 1
         }
 
         ],
@@ -104,109 +113,127 @@
         {
             "id_pizza" : 11,
             "sabor" : "MUCARELA",
-            "valor" : 25.50
+            "valor" : 25.50,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 12,
             "sabor" : "CALABREZA",
-            "valor" : 26.50
+            "valor" : 26.50,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 13,
             "sabor" : "MARGUERITA",
-            "valor" : 26.00
+            "valor" : 26.00,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 14,
             "sabor" : "PORTUGUESA",
-            "valor" : 30.80
+            "valor" : 30.80,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 15,
             "sabor" : "FRANGO COM CATUPIRY",
-            "valor" : 31.20
+            "valor" : 31.20,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 16,
             "sabor" : "BAIANA",
-            "valor" : 32.20
+            "valor" : 32.20,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 17,
             "sabor" : "LOMBO",
-            "valor" : 30.10
+            "valor" : 30.10,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 18,
             "sabor" : "QUATRO QUEIJOS",
-            "valor" : 29.90
+            "valor" : 29.90,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 19,
             "sabor" : "AMERICANA",
-            "valor" : 35.20
+            "valor" : 35.20,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 20,
             "sabor" : "PEPERONI",
-            "valor" : 34.70
+            "valor" : 34.70,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 21,
             "sabor" : "CALIFORNIA",
-            "valor" : 29.80
+            "valor" : 29.80,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 22,
             "sabor" : "ESCAROLA",
-            "valor" : 12.50
+            "valor" : 12.50,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 23,
             "sabor" : "TOMATE SECO COM RUCULA",
-            "valor" : 32.30
+            "valor" : 32.30,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 23,
             "sabor" : "VEGETARIANA",
-            "valor" : 99.90
+            "valor" : 99.90,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 24,
             "sabor" : "ABOBRINHA",
-            "valor" : 89.90
+            "valor" : 89.90,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 25,
             "sabor" : "BERINJELA",
-            "valor" : 89.90
+            "valor" : 89.90,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 26,
             "sabor" : "ATUM",
-            "valor" : 15.00
+            "valor" : 15.00,
+            "fg_ativo" : 1
         },
 
         {
             "id_pizza" : 27,
             "sabor" : "SARDINHA",
-            "valor" : 10.00
+            "valor" : 10.00,
+            "fg_ativo" : 1
         }
 
         ]
