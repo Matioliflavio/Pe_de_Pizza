@@ -1,24 +1,3 @@
-CREATE TABLE  tb_pedido(
-id_pedido       SERIAL NOT NULL,
-id_cliente      INTEGER NOT NULL,
-data_compra     DATE,
-valor           NUMERIC(6,2),
-CONSTRAINT pk_id_pedido PRIMARY KEY (id_pedido),
-CONSTRAINT fk_tb_cliente_id_cliente FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente)
-);
-
-CREATE TABLE tb_item_pedido(
-id_item         SERIAL NOT NULL,
-id_pedido       INTEGER NOT NULL, 
-id_pizza        INTEGER NOT NULL,
-quantidade      INTEGER, 
-fg_meia         INTEGER,
-valor           NUMERIC(5,2),
-CONSTRAINT pk_item_pedido PRIMARY KEY (id_pedido, id_pizza, id_item),
-CONSTRAINT fk_tb_pedido_id_pedido FOREIGN KEY (id_pedido) REFERENCES tb_pedido(id_pedido),
-CONSTRAINT fk_tb_pizzas_id_pizza FOREIGN KEY (id_pizza) REFERENCES tb_pizzas(id_pizza)            
-);
-
 insert INTO tb_pedido(id_cliente, data_compra, valor) VALUES (1, '2018-04-02', 50.00);
 insert INTO tb_item_pedido(id_item, id_pedido, id_pizza, quantidade, fg_meia, valor) VALUES (1, 1, 1, 1, 0, 25.00);
 insert INTO tb_item_pedido(id_item, id_pedido, id_pizza, quantidade, fg_meia, valor) VALUES (2, 1, 2, 1, 0, 25.00);
