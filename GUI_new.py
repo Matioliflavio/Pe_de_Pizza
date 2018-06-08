@@ -641,4 +641,4 @@ def main():
     app = FramePrincipal()
     app.mainloop()
 
-main()
+# main()

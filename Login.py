@@ -21,6 +21,7 @@ class Entrar(Frame):
         self.Label1.pack(padx=15,pady= 5)
 
         self.entry1=Entry(self.frame1)
+        self.entry1.focus_set()
         self.entry1.pack(padx=15, pady=5)
      
         self.frame2=Frame()
@@ -29,7 +30,9 @@ class Entrar(Frame):
         self.Label2.pack(padx=15,pady= 6)
 
         self.entry2=Entry(self.frame2, show="*")
+        self.entry2.bind("<Return>",self.login)
         self.entry2.pack(padx=15, pady=6)
+        
 
         self.frame3 = Frame()
         self.frame3.pack(fill=X)

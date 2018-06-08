@@ -38,7 +38,7 @@ def cria_backup_json(caminho):
         cliente["numero"] = item[5]
         cliente["complemento"] = item[6]
         cliente["bairro"] = item[7]
-        cliente["fg_ativo"] = iten[8]
+        cliente["fg_ativo"] = item[8]
         clientes.append(cliente) 
 
     data["clientes"] = clientes
@@ -54,8 +54,7 @@ def cria_backup_json(caminho):
     json.dump(data, f, sort_keys=True, indent=4) #junta tudo no JSON
     f.close()
 
-    if not os.path.exists(caminho):
-        os.makedirs(caminho)
+    os.chdir(dir)
     log("Comapactando:")
     #aqui entra a zica da compactação! :P
     path_zip = os.path.join(os.sep, caminho,  'backup.zip')
