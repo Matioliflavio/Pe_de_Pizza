@@ -184,6 +184,52 @@ def busca_clientes(parcial):
         log(erro)
     return clientes #mesmo com erro retorna None
 
+def faturamento_do_dia(data):
+    sql = "SELECT SUM(valor) FROM tb_pedido WHERE data_compra = %s;"
+    #data = dt.date.today().strftime("%Y-%m-%d")
+    log("Somando Faturamento: %s" %data)
+    fatura = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (data,) ))
+        fatura = cur.fetchone()
+        log("Item retornado com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return fatura #mesmo com erro retorna None
+
+def faturamento_do_mes(mes, ano):
+    sql = "SELECT SUM(valor) FROM tb_pedido WHERE EXTRACT(MONTH FROM data_compra) = %s;"
+    log("Somando Faturamento do mês: %s" %mes)
+    fatura = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (mes,) ))
+        fatura = cur.fetchone()
+        log("Item retornado com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return fatura #mesmo com erro retorna None
+
+def faturamento_do_ano(ano):
+    sql = "SELECT SUM(valor) FROM tb_pedido WHERE EXTRACT(YEAR FROM data_compra) = %s;"
+    log("Somando Faturamento do ano: %s" %ano)
+    fatura = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(cur.mogrify(sql, (ano,) ))
+        fatura = cur.fetchone()
+        log("Item retornado com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return fatura #mesmo com erro retorna None
+
     #//////////////////////////////////
     #//////////  "DELETES"  ///////////
     #//////////////////////////////////
@@ -215,3 +261,5 @@ def deleta_pizza_por_id(id):
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0 
+
+print(faturamento_do_ano(2018))

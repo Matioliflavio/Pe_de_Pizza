@@ -5,11 +5,15 @@ from tkinter import messagebox as mbox
 import ManipuladorDados as mp
 import exportaDados as ed
 import importaDados as imp
+import datetime
 
 
 
 class FramePrincipal(Frame):
     
+    #data
+    _data = datetime.date.today()
+
     #Cores
     _cinza = "#d9d9d9"
     _preto = "#000000"
@@ -275,6 +279,61 @@ class FramePrincipal(Frame):
         frameFaturamento = Frame(notebook, bg=self._cinza)
 
         self.addTitulo(frameFaturamento, " >> Faturamento << ", self._branco, self._font4)
+
+        self.addTitulo(frameFaturamento, "Data:", self._cinza, self._font2, LEFT)
+        self.frameDataFatura = Frame(frameFaturamento, bg=self._cinza)
+        self.frameDataFatura.pack(side=TOP, fill=X)
+        self.dia= []
+        for item in range(1,32):
+                self.dia.append(item)
+        self.comboDiaFatura = ttk.Combobox(self.frameDataFatura, font=self._font2, width=5, state='readonly', values=self.dia)
+        self.comboDiaFatura.pack(side=LEFT, fill=X, padx=5)
+        self.comboDiaFatura.current((self._data.day)-1)
+        self.mes= []
+        for item in range(1,13):
+                self.mes.append(item)
+        self.comboMesFatura = ttk.Combobox(self.frameDataFatura, font=self._font2, width=5, state='readonly', values=self.mes)
+        self.comboMesFatura.pack(side=LEFT, fill=X, padx=5)
+        self.comboMesFatura.current((self._data.month)-1)
+        self.ano= []
+        for item in range(2017,2031):
+                self.ano.append(item)
+        self.comboAnoFatura = ttk.Combobox(self.frameDataFatura, font=self._font2, width=5, state='readonly', values=self.ano)
+        self.comboAnoFatura.pack(side=LEFT, fill=X, padx=5)
+        self.comboAnoFatura.current(1)
+        self.btnBuscarData = Button(self.frameDataFatura, width=10, text="Buscar Data", command=self.btnBuscarData)
+        self.btnBuscarData.pack(side=LEFT, padx=88)
+
+        self.addTitulo(frameFaturamento, "Mês:", self._cinza, self._font2, LEFT)
+        self.frameMesFatura = Frame(frameFaturamento, bg=self._cinza)
+        self.frameMesFatura.pack(side=TOP, fill=X)
+        self.mes2= []
+        for item in range(1,13):
+                self.mes2.append(item)
+        self.comboMes2Fatura = ttk.Combobox(self.frameMesFatura, font=self._font2, width=5, state='readonly', values=self.mes2)
+        self.comboMes2Fatura.pack(side=LEFT, fill=X, padx=5)
+        self.comboMes2Fatura.current((self._data.month)-1)
+        self.ano3= []
+        for item in range(2017,2031):
+                self.ano3.append(item)
+        self.comboAno3Fatura = ttk.Combobox(self.frameMesFatura, font=self._font2, width=5, state='readonly', values=self.ano3)
+        self.comboAno3Fatura.pack(side=LEFT, fill=X, padx=5)
+        self.comboAno3Fatura.current(1)
+        self.btnBuscarMes = Button(self.frameMesFatura, width=10, text="Buscar Mês", command=self.btnBuscarMes)
+        self.btnBuscarMes.pack(side=LEFT, padx=156)
+
+        self.addTitulo(frameFaturamento, "Ano:", self._cinza, self._font2, LEFT)
+        self.frameAnoFatura = Frame(frameFaturamento, bg=self._cinza)
+        self.frameAnoFatura.pack(side=TOP, fill=X)
+        self.ano2= []
+        for item in range(2017,2031):
+                self.ano2.append(item)
+        self.comboAno2Fatura = ttk.Combobox(self.frameAnoFatura, font=self._font2, width=5, state='readonly', values=self.ano2)
+        self.comboAno2Fatura.pack(side=LEFT, fill=X, padx=5)
+        self.comboAno2Fatura.current(0)
+        self.btnBuscarAno = Button(self.frameAnoFatura, width=10, text="Buscar Ano", command=self.btnBuscarAno)
+        self.btnBuscarAno.pack(side=TOP, padx=5)
+
 
         notebook.add(frameFaturamento, text=" Faturamento ")
 
@@ -588,6 +647,40 @@ class FramePrincipal(Frame):
     # -----------------------------------------------------------------------------------------------
     #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES FATURAMENTO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     # -----------------------------------------------------------------------------------------------
+    def btnBuscarData(self):
+        data = self.comboAnoFatura.get() + "-" + self.comboMesFatura.get() + "-" + self.comboDiaFatura.get()
+        print(data)
+        faturamento = mp.faturamento_do_dia(data)
+        if faturamento:
+            msg = "Faturamento do dia: " + data + "\nR$: " + str(faturamento[0])
+            self.exibirMensagem(msg)
+        else:
+            self.exibirMensagem("Erro ao retornar valores!")
+
+    # -----------------------------------------------------------------------------------------------    
+    def btnBuscarMes(self):
+        print("Busca Data")
+        mes= self.comboMes2Fatura.get()
+        ano = self.comboAno3Fatura.get()
+        print(mes)
+        faturamento = mp.faturamento_do_mes(mes)
+        if faturamento:
+            msg = "Faturamento do mês: " + mes + "\nR$: " + str(faturamento[0])
+            self.exibirMensagem(msg)
+        else:
+            self.exibirMensagem("Erro ao retornar valores!")
+
+    # -----------------------------------------------------------------------------------------------        
+    def btnBuscarAno(self):
+        print("Busca Data")
+        ano= self.comboAno2Fatura.get()
+        print(ano)
+        faturamento = mp.faturamento_do_ano(ano)
+        if faturamento:
+            msg = "Faturamento do ano: " + ano + "\nR$: " + str(faturamento[0])
+            self.exibirMensagem(msg)
+        else:
+            self.exibirMensagem("Erro ao retornar valores!")
 
 
     # --------------------------------------------------------------------------------------------
