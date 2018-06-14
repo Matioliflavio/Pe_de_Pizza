@@ -245,6 +245,21 @@ def maisVendida():
         log(erro)
     return dados #mesmo com erro retorna None
 
+def melhoresClientes():
+    sql = "SELECT c.nome, SUM(p.valor) FROM tb_pedido p, tb_clientes c WHERE p.id_cliente = c.id_cliente GROUP BY c.id_cliente ORDER BY SUM(p.valor) DESC;"
+    log("Buscando melhores clientes ")
+    cliente = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(sql)
+        cliente = cur.fetchmany(5)
+        log("Pesquisa efetuada com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return cliente #mesmo com erro retorna None
+
 
     #//////////////////////////////////
     #//////////  "DELETES"  ///////////
@@ -278,6 +293,6 @@ def deleta_pizza_por_id(id):
         log(erro)
         return 0 
 
-a = maisVendida()
+a = melhoresClientes()
 print(a)
 
