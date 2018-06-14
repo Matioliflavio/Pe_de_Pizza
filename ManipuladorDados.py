@@ -292,10 +292,3 @@ def deleta_pizza_por_id(id):
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0 
-<<<<<<< HEAD
-=======
-
-a = melhoresClientes()
-print(a)
-
->>>>>>> af5f145f0a34bfed6e9ad9d07c322ed62a8bf32c
