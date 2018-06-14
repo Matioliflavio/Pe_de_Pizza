@@ -230,6 +230,22 @@ def faturamento_do_ano(ano):
         log(erro)
     return fatura #mesmo com erro retorna None
 
+def maisVendida():
+    sql = "SELECT SUM(i.quantidade),p.sabor FROM tb_pizzas p, tb_item_pedido i WHERE i.id_pizza = p.id_pizza GROUP BY p.id_pizza ORDER BY SUM(i.quantidade) DESC;"
+    log("Buscando pizzas favoritas ")
+    dados = None
+    try:
+        con = conecta()
+        cur = con.cursor()
+        cur.execute(sql)
+        dados = cur.fetchmany(5)
+        log("Pesquisa efetuada com sucesso")
+        desconecta(con)
+    except (Exception, pg.DatabaseError) as erro:
+        log(erro)
+    return dados #mesmo com erro retorna None
+
+
     #//////////////////////////////////
     #//////////  "DELETES"  ///////////
     #//////////////////////////////////
@@ -262,4 +278,6 @@ def deleta_pizza_por_id(id):
         log(erro)
         return 0 
 
-print(faturamento_do_ano(2018))
+a = maisVendida()
+print(a)
+
