@@ -201,13 +201,13 @@ def faturamento_do_dia(data):
     return fatura #mesmo com erro retorna None
 
 def faturamento_do_mes(mes, ano):
-    sql = "SELECT SUM(valor) FROM tb_pedido WHERE EXTRACT(MONTH FROM data_compra) = %s;"
+    sql = "SELECT SUM(p.valor) FROM tb_pedido p WHERE (EXTRACT(YEAR FROM p.data_compra) = %s AND EXTRACT(MONTH FROM p.data_compra) =  %s);"
     log("Somando Faturamento do mês: %s" %mes)
     fatura = None
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (mes,) ))
+        cur.execute(cur.mogrify(sql, (ano, mes,) ))
         fatura = cur.fetchone()
         log("Item retornado com sucesso")
         desconecta(con)
@@ -261,5 +261,3 @@ def deleta_pizza_por_id(id):
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0 
-
-print(faturamento_do_ano(2018))

@@ -408,6 +408,25 @@ class FramePrincipal(Frame):
 
         self.addTitulo(frameDados, " >> Dados << ", self._branco, self._font4)
 
+        #lista de resultados
+        self.frameResultadoDados = Frame(frameDados, bg=self._cinza)
+        self.frameResultadoDados.pack(side=TOP, fill=X)
+        scrollYDados = Scrollbar(self.frameResultadoDados, orient=VERTICAL)
+        self.listaDados = Listbox(self.frameResultadoDados, yscrollcommand=scrollYCliente.set, height=20, width=50, font=self._font2, selectmode=NONE)
+        #self.listaDados.bind("<<ListboxSelect>>", self.onListSelectBusca)
+        self.listaDados.pack(side=LEFT,fill=X,expand=True, pady=5)
+        self.listaDados.select_set(0)
+        scrollYDados["command"] = self.listaDados.yview
+        scrollYDados.pack(side=LEFT,fill=Y, pady=5)
+
+        #Botões
+        self.frameBotoesDados = Frame(frameDados, bg=self._cinza)
+        self.frameBotoesDados.pack(side=BOTTOM, fill=X)
+        self.btnAdicionarDados = Button(self.frameBotoesDados, width=12, text="Listar Dados", command=self.btnListarDados)
+        self.btnAdicionarDados.pack(side=RIGHT, padx=10)
+        self.btnLimparDados = Button(self.frameBotoesDados, width=10, text="Limpar", command=self.limparDados)
+        self.btnLimparDados.pack(side=RIGHT, padx=10)
+
         notebook.add(frameDados, text=" Dados ")
 
         ################################################################################################
@@ -662,10 +681,9 @@ class FramePrincipal(Frame):
         print("Busca Data")
         mes= self.comboMes2Fatura.get()
         ano = self.comboAno3Fatura.get()
-        print(mes)
-        faturamento = mp.faturamento_do_mes(mes)
+        faturamento = mp.faturamento_do_mes(mes, ano)
         if faturamento:
-            msg = "Faturamento do mês: " + mes + "\nR$: " + str(faturamento[0])
+            msg = "Faturamento do mês: " + mes + "/" + ano + "\nR$: " + str(faturamento[0])
             self.exibirMensagem(msg)
         else:
             self.exibirMensagem("Erro ao retornar valores!")
@@ -676,7 +694,7 @@ class FramePrincipal(Frame):
         ano= self.comboAno2Fatura.get()
         print(ano)
         faturamento = mp.faturamento_do_ano(ano)
-        if faturamento:
+        if faturamento[0]:
             msg = "Faturamento do ano: " + ano + "\nR$: " + str(faturamento[0])
             self.exibirMensagem(msg)
         else:
@@ -726,7 +744,11 @@ class FramePrincipal(Frame):
     # -----------------------------------------------------------------------------------------
     #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES DADOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     # -----------------------------------------------------------------------------------------
+    def btnListarDados(self):
+        print("lista")
 
+    def limparDados(self):
+        print("limpar")
 
     ## -- Final das funções da GUI --
 
