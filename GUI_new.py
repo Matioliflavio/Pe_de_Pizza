@@ -412,7 +412,7 @@ class FramePrincipal(Frame):
         self.frameResultadoDados = Frame(frameDados, bg=self._cinza)
         self.frameResultadoDados.pack(side=TOP, fill=X)
         scrollYDados = Scrollbar(self.frameResultadoDados, orient=VERTICAL)
-        self.listaDados = Listbox(self.frameResultadoDados, yscrollcommand=scrollYCliente.set, height=20, width=50, font=self._font2, selectmode=NONE)
+        self.listaDados = Listbox(self.frameResultadoDados, yscrollcommand=scrollYCliente.set, height=20, width=50, font=self._font2, highlightthickness=None)
         #self.listaDados.bind("<<ListboxSelect>>", self.onListSelectBusca)
         self.listaDados.pack(side=LEFT,fill=X,expand=True, pady=5)
         self.listaDados.select_set(0)
@@ -670,7 +670,7 @@ class FramePrincipal(Frame):
         data = self.comboAnoFatura.get() + "-" + self.comboMesFatura.get() + "-" + self.comboDiaFatura.get()
         print(data)
         faturamento = mp.faturamento_do_dia(data)
-        if faturamento:
+        if faturamento[0]:
             msg = "Faturamento do dia: " + data + "\nR$: " + str(faturamento[0])
             self.exibirMensagem(msg)
         else:
@@ -682,7 +682,7 @@ class FramePrincipal(Frame):
         mes= self.comboMes2Fatura.get()
         ano = self.comboAno3Fatura.get()
         faturamento = mp.faturamento_do_mes(mes, ano)
-        if faturamento:
+        if faturamento[0]:
             msg = "Faturamento do mês: " + mes + "/" + ano + "\nR$: " + str(faturamento[0])
             self.exibirMensagem(msg)
         else:
@@ -745,9 +745,29 @@ class FramePrincipal(Frame):
     #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNÇÕES DADOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     # -----------------------------------------------------------------------------------------
     def btnListarDados(self):
+        pizzas = mp.maisVendida()
+        clientes = mp.melhoresClientes()
+        self.listaDados.delete(0, END)
+
+        self.listaDados.insert(END, "QUANTIDADE          PIZZA")
+        self.listaDados.insert(END, "__________________________________________________")
+        for pizza in pizzas:
+            pz = str(pizza[0]) + "                  " + str(pizza[1]).capitalize()
+            self.listaDados.insert(END, pz)
+
+        self.listaDados.insert(END, "")
+        self.listaDados.insert(END, "")
+
+        self.listaDados.insert(END, "NOME          VALOR GASTO")
+        self.listaDados.insert(END, "__________________________________________________")
+        for cliente in clientes:
+            cl = str(cliente[0]).capitalize() + "       " + str(cliente[1])
+            self.listaDados.insert(END, cl)
+
         print("lista")
 
     def limparDados(self):
+        self.listaDados.delete(0, END)
         print("limpar")
 
     ## -- Final das funções da GUI --
@@ -756,4 +776,4 @@ def main():
     app = FramePrincipal()
     app.mainloop()
 
-# main()
+#main()

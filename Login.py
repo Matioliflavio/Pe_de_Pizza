@@ -46,7 +46,6 @@ class Entrar(Frame):
         senha = self.entry2.get()
         if (usuario == 'admin' and  senha == 'admin'):
             box.showinfo('Sucesso','Login efetuado com sucesso! ')
-            time.sleep(1)
             app.destroy()
             gui.main()
         else:

@@ -96,7 +96,7 @@ def finaliza_pedido(id_pedido, valor):
         con = conecta()
         cur = con.cursor()
         cur.execute(cur.mogrify(sql, (valor, id_pedido)))
-        log("Pedido atualizado com sucesso")
+        log("Pedido atualizado com sucesso %s, %s" %(valor, id_pedido) )
         desconecta(con)
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
@@ -292,10 +292,3 @@ def deleta_pizza_por_id(id):
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0 
-<<<<<<< HEAD
-=======
-
-a = melhoresClientes()
-print(a)
-
->>>>>>> af5f145f0a34bfed6e9ad9d07c322ed62a8bf32c
