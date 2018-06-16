@@ -91,17 +91,18 @@ def insere_item_pedido(id_pedido, id_pizza, quantidade, fg_meia, valor):#dados d
 
 def finaliza_pedido(id_pedido, valor):
     sql = "UPDATE tb_pedido SET valor = %s WHERE id_pedido = %s;"
-    log("Atualizando pedido")
+    log("Atualizando pedido %s" %id_pedido)
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (valor, id_pedido)))
+        cur.execute(cur.mogrify(sql, (valor, id_pedido,)))
         log("Pedido atualizado com sucesso %s, %s" %(valor, id_pedido) )
         desconecta(con)
+        return 1
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0
-    return 1
+    
 
 
 #////////////////////////////////
@@ -291,8 +292,4 @@ def deleta_pizza_por_id(id):
         return 1
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
-<<<<<<< HEAD
         return 0 
-=======
-        return 0 
->>>>>>> bb1506c01e9646f3a5ec83482a0e66644a015a28

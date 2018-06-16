@@ -545,7 +545,7 @@ class FramePrincipal(Frame):
         CLIENTE: %s
         VALOR R$: %.2f
         """ %(self.pedidoAtivo, self.clienteSelecionado, self.pedidoAtivoValor)
-        result = mp.finaliza_pedido(self.clienteSelecionado[0], self.pedidoAtivoValor)
+        result = mp.finaliza_pedido(self.pedidoAtivo, self.pedidoAtivoValor)
         if result: self.exibirMensagem(txt)
         self.limparPedido()
         
