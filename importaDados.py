@@ -9,11 +9,9 @@ import ManipuladorDados as mp
 #Arquivo JSON: https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg
 
 log = True #Habilita log console
-verbose = True
 
 def log(data):
     if log : print(data)
-
 
 url = "https://docs.google.com/uc?export=download&id=1kFWv_Dfq9hCJrz3b2BTMjx1Z2JxifBDg" 
 

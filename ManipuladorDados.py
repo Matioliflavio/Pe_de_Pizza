@@ -147,7 +147,7 @@ def lista_cliente_por_id(id):
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (str(id))))
+        cur.execute(cur.mogrify(sql, (id,)))
         cliente = cur.fetchone()
         log("Item retornado com sucesso")
         desconecta(con)
@@ -162,7 +162,7 @@ def lista_pizza_por_id(id):
     try:
         con = conecta()
         cur = con.cursor()
-        cur.execute(cur.mogrify(sql, (str(id))))
+        cur.execute(cur.mogrify(sql, (id,)))
         pizza = cur.fetchone()
         log("Item retornado com sucesso")
         desconecta(con)
@@ -293,3 +293,4 @@ def deleta_pizza_por_id(id):
     except (Exception, pg.DatabaseError) as erro:
         log(erro)
         return 0 
+        

@@ -497,8 +497,12 @@ class FramePrincipal(Frame):
     # ------------------------------------------------------------------------------------------
     def botaoAdicionarPizzaPedido(self):
         print("Adicionar ao Pedido")
-        sabor = self.comboPizzaPedido.get()
-        idPizza = sabor[0] 
+        p = self.comboPizzaPedido.get().split(" - ")
+        print("----------")
+        print(p[0])
+        print(p[1])
+        sabor = p[1]
+        idPizza = p[0] 
         meia = self.meia.get()
         pizza = mp.lista_pizza_por_id(idPizza)
         if meia:
@@ -507,13 +511,14 @@ class FramePrincipal(Frame):
         else:
             valor = pizza[2]
             txtMeia = "Inteira "
+
         
         idItem = mp.insere_item_pedido(self.pedidoAtivo, idPizza, 1, meia, str(valor))
         if idItem:
             print("Item inserido com sucesso!!!")
             self.pedidoAtivoValor += valor 
             self.listaPedido.delete(END)
-            self.listaPedido.insert(END, txtMeia + sabor[4:] + " - Valor item R$:" + str(valor))
+            self.listaPedido.insert(END, txtMeia + sabor + " - Valor item R$:" + str(valor))
             self.listaPedido.insert(END, "-------------------> TOTAL Pedido R$:%.2f <-------------------" %self.pedidoAtivoValor)
         else:
             print("Deu Ruim ao inserir")
@@ -534,6 +539,7 @@ class FramePrincipal(Frame):
         self.btnAdicionarPizzaPedido["state"]= DISABLED
         self.ckbMeiaPizza["state"]= DISABLED
         self.comboPizzaPedido["state"]= DISABLED
+        self.listaBusca["state"] = NORMAL
         self.pedidoAtivoValor = 0
         self.listaPedido.delete(0, END)
 
@@ -551,7 +557,8 @@ class FramePrincipal(Frame):
         
     # ------------------------------------------------------------------------------------------
     def criaPedido(self):
-        self.pedidoAtivo = mp.insere_pedido(self.clienteSelecionado[0])
+        idc = self.clienteSelecionado.split(" - ")
+        self.pedidoAtivo = mp.insere_pedido(idc[0])
         self.pedidoAtivoValor = 0
         if self.pedidoAtivo:
             print("Pedido Criado")
@@ -561,6 +568,8 @@ class FramePrincipal(Frame):
             self.btnAdicionarPizzaPedido["state"]= ACTIVE
             self.ckbMeiaPizza["state"]= ACTIVE
             self.comboPizzaPedido["state"]= ACTIVE
+            self.btnAdidcionarPedidoCliente["state"] = DISABLED
+            self.listaBusca["state"] = DISABLED
         else:
             self.exibirMensagem("Deu ruim")
     
@@ -776,4 +785,4 @@ def main():
     app = FramePrincipal()
     app.mainloop()
 
-#main()
+main()
