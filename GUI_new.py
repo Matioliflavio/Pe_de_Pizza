@@ -92,12 +92,7 @@ class FramePrincipal(Frame):
         self.addTitulo(framePedido, "Pizza:", self._cinza, self._font2, LEFT)
         self.framePizzaPedido = Frame(framePedido, bg=self._cinza)
         self.framePizzaPedido.pack(side=TOP, fill=X)
-
-        self.pizzas = mp.lista_pizzas()
-        self.pz= []
-        for pizza in self.pizzas:
-                self.pz.append(str(pizza[0]) + " - " + pizza[1])
-        self.comboPizzaPedido = ttk.Combobox(self.framePizzaPedido, font=self._font2, width=50, values=self.pz, state=DISABLED)
+        self.comboPizzaPedido = ttk.Combobox(self.framePizzaPedido, font=self._font2, width=50, postcommand = self.updateCombo, state=DISABLED)
         self.comboPizzaPedido.pack(side=LEFT, fill=X)
         self.meia = IntVar()
         self.ckbMeiaPizza = Checkbutton(self.framePizzaPedido,bg=self._cinza,font=self._font2, text="Meia", state=DISABLED, variable=self.meia, command=self.meiaSelect)
@@ -495,6 +490,14 @@ class FramePrincipal(Frame):
         print("Item: %s" %self.clienteSelecionado)
 
     # ------------------------------------------------------------------------------------------
+    def updateCombo(self):
+        self.pizzas = mp.lista_pizzas()
+        self.pz= []
+        for pizza in self.pizzas:
+                self.pz.append(str(pizza[0]) + " - " + pizza[1])
+        self.comboPizzaPedido["values"] = self.pz
+
+    # ------------------------------------------------------------------------------------------
     def botaoAdicionarPizzaPedido(self):
         print("Adicionar ao Pedido")
         p = self.comboPizzaPedido.get().split(" - ")
@@ -613,7 +616,7 @@ class FramePrincipal(Frame):
         valor = str(self.valorPizzasEntry.get()).replace(",", ".")
         pid = mp.insere_pizza(sabor, valor)
         if pid:
-            self.exibirMensagem("Inserida com Sucesso \nFavor Reiniciar o programa! ")
+            self.exibirMensagem("Inserida com Sucesso \n")
             self.limparSabor()
         else:
             self.exibirMensagem("Erro ao Inserir")
@@ -637,7 +640,9 @@ class FramePrincipal(Frame):
             else: self.exibirMensagem("Erro ao Deletar %s" %self.itemDeletar)
         elif self.tipoDeletar == "C":
             delCliente = mp.deleta_cliente_por_id(str(id))
-            if delCliente: self.exibirMensagem("Deletando %s" %self.itemDeletar)
+            if delCliente: 
+                self.exibirMensagem("Deletando %s" %self.itemDeletar)
+                self.botaoBuscaCliente()
             else: self.exibirMensagem("Erro ao Deletar %s" %self.itemDeletar)
         else:
             self.exibirMensagem("Selecione um item para deletar!")
@@ -785,4 +790,4 @@ def main():
     app = FramePrincipal()
     app.mainloop()
 
-main()
+#main()

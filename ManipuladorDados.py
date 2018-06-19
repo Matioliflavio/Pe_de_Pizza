@@ -41,7 +41,7 @@ def insere_cliente(nome, telefone, cep=None, rua=None, numero=None, complemento=
         return 0 
     return id_cliente
 
-def insere_pizza(sabor, valor, flag):
+def insere_pizza(sabor, valor):
     sql = "INSERT INTO tb_pizzas(sabor, valor, fg_ativo) VALUES(%s, %s, %s) RETURNING id_pizza;"
     id_pizza = None
     fgAtivo = 1

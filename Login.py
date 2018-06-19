@@ -13,6 +13,7 @@ class Entrar(Frame):
     def __init__(self,master = None):
         super().__init__()
         self.master.title("Login Pe de Pizza")
+        self.master.iconbitmap("pedepizza.ico")
         self.pack(padx=200,pady = 19)
 
         self.frame1=Frame()
