@@ -3,6 +3,9 @@
 
 import psycopg2 as pg
 import datetime as dt
+import setup # arquivo com dados gitignore
+
+#load_dotenv()
 
 log = True #Habilita log
 
@@ -10,7 +13,11 @@ def log(data):
     if log: print(data)
 
 def conecta():
-    con = pg.connect(database="bd_pedepizza", user="postgres", password="qwerty", host="127.0.0.1", port="5432")
+    con = pg.connect(database=setup.DATABASE_NAME, 
+                    user=setup.DB_USER,
+                    password=setup.DB_PASSWORD,
+                    host=setup.DB_HOST,
+                    port="5432")
     log("Sucesso na conexão")
     return con
 
@@ -61,7 +68,7 @@ def insere_pizza(sabor, valor):
 def insere_pedido(id_cliente):
     sql = "INSERT INTO tb_pedido(id_cliente, data_compra) VALUES(%s, %s) RETURNING id_pedido;"
     id_pedido = None
-    data = dt.date.today().strftime("%d/%m/%Y")
+    data = dt.date.today()#.strftime("%d/%m/%Y")
     log("Inserindo pedido")
     try:
         con = conecta()
